@@ -9,7 +9,15 @@ tokens = (
     'DIVIDE',
     'AND',
     'OR',
-    'NEGATE'
+    'NEGATE',
+    'EQUAL',
+    'INCREMENT',
+    'DECREMENT',
+    'EQUALTO',
+    'MAYORQUE',
+    'MENORQUE',
+    'MAYORIGUAL',
+    'MENORIGUAL'
 )
 
 t_PLUS = r'\+'
@@ -17,6 +25,18 @@ t_MINUS   = r'-'
 t_TIMES   = r'\*'
 t_MODULE = r'\%'
 t_DIVIDE = r'/'
+t_AND = r'&&'
+t_OR = r'\|\|'
+t_NEGATE = r'!'
+t_EQUAL = r'\='
+t_INCREMENT = r'\+\+'
+t_DECREMENT = r'\-\-'
+t_EQUALTO = r'\=\='
+t_MAYORQUE = r'>'
+t_MENORQUE = r'<'
+t_MAYORIGUAL = r'>='
+t_MENORIGUAL = r'<='
+
 
 def t_NUMBER(t):
     r'\d+'
@@ -36,7 +56,7 @@ def t_error(t):
 lexer = lex.lex()
 
 data = '''
-3 + 4 * 10 % &
+3 + 4 * 10 % && || ! ++ -- = == > < >= <=
 '''
 
 lexer.input(data)
