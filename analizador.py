@@ -1,23 +1,14 @@
 import ply.lex as lex
-# Comienza aporte de Robespierre Triviño
-reserved = {
-    'package': 'PACKAGE', 'import': 'IMPORT', 'class': 'CLASS', 'interface': 'INTERFACE',
-    'fun': 'FUN', 'object': 'OBJECT', 'val': 'VAL', 'var': 'VAR', 'typealias': 'TYPE_ALIAS',
-    'constructor': 'CONSTRUCTOR', 'by': 'BY', 'companion': 'COMPANION', 'init': 'INIT',
-    'this': 'THIS', 'super': 'SUPER', 'typeof': 'TYPEOF', 'where': 'WHERE', 'if': 'IF',
-    'else': 'ELSE', 'when': 'WHEN', 'try': 'TRY', 'catch': 'CATCH', 'finally': 'FINALLY',
-    'for': 'FOR', 'do': 'DO', 'while': 'WHILE', 'throw': 'THROW', 'return': 'RETURN',
-    'continue': 'CONTINUE', 'break': 'BREAK', 'as': 'AS', 'is': 'IS', 'in': 'IN',
-    'notis': 'NOT_IS', 'notin': 'NOT_IN', 'out': 'OUT', 'dynamic': 'DYNAMIC', 'public': 'PUBLIC',
-    'private': 'PRIVATE', 'protected': 'PROTECTED', 'internal': 'INTERNAL', 'enum': 'ENUM',
-    'sealed': 'SEALED', 'annotation': 'ANNOTATION', 'data': 'DATA', 'inner': 'INNER',
-    'tailrec': 'TAILREC', 'operator': 'OPERATOR', 'inline': 'INLINE', 'infix': 'INFIX',
-    'external': 'EXTERNAL', 'suspend': 'SUSPEND', 'override': 'OVERRIDE', 'abstract': 'ABSTRACT',
-    'final': 'FINAL', 'open': 'OPEN', 'const': 'CONST', 'lateinit': 'LATEINIT', 'vararg': 'VARARG',
-    'noinline': 'NOINLINE', 'crossinline': 'CROSSINLINE', 'reified': 'REIFIED', 'expect': 'EXPECT',
-    'actual': 'ACTUAL'
-}
-# Termina aporte de Robespierre Triviño
+import datetime
+
+#Comienza aporte Robespierre Triviño Roman
+def generar_nombre_log(nombre):
+    ahora = datetime.datetime.now()
+    nombre_archivo = ahora.strftime(f"lexico-{nombre}-%d%m%Y-%Hh%M.txt")
+    return nombre_archivo
+#Termina aporte Robespierre Triviño Roman
+
+
 '''
 Eduardo Sanchez
 '''
@@ -30,8 +21,7 @@ tokens = (
     'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LBRACK', 'RBRACK',
     'COMMA', 'DOT', 'COLON', 'SEMICOLON', 'ARROW', 'DOUBLECOLON',
     'ID', 'COMMENT', 'COMMENT_MULTI'
-) + tuple(reserved.values())
-
+)
 
 t_PLUS = r'\+'
 t_MINUS   = r'-'
@@ -105,13 +95,13 @@ def t_COMMENT_MULTI(t):
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
-    
+
 t_ignore = ' \t'
 
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
-    
+
 lexer = lex.lex()
 
 data = '''
@@ -123,10 +113,10 @@ lexer.input(data)
 
 while True:
     tok = lexer.token()
-    
+
     if not tok:
         break
-    
+
     print(tok)
 
 '''
