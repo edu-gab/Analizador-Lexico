@@ -8,3 +8,11 @@ for (i in 1..60) {
 }
 
 println(result)
+
+try = 0
+while (true) {
+    try += 2
+    println(try)
+
+    if(println > 60) break
+}
