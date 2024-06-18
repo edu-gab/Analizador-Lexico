@@ -23,9 +23,27 @@ def leer_algoritmo(nombre_archivo):
 
 # Termina aporte Robespierre Triviño Roman
 
-'''
-Eduardo Sanchez
-'''
+# Aporte de Ronny
+reserved = {
+    'package': 'PACKAGE', 'import': 'IMPORT', 'class': 'CLASS', 'interface': 'INTERFACE',
+    'fun': 'FUN', 'object': 'OBJECT', 'val': 'VAL', 'var': 'VAR', 'typealias': 'TYPE_ALIAS',
+    'constructor': 'CONSTRUCTOR', 'by': 'BY', 'companion': 'COMPANION', 'init': 'INIT',
+    'this': 'THIS', 'super': 'SUPER', 'typeof': 'TYPEOF', 'where': 'WHERE', 'if': 'IF',
+    'else': 'ELSE', 'when': 'WHEN', 'try': 'TRY', 'catch': 'CATCH', 'finally': 'FINALLY',
+    'for': 'FOR', 'do': 'DO', 'while': 'WHILE', 'throw': 'THROW', 'return': 'RETURN',
+    'continue': 'CONTINUE', 'break': 'BREAK', 'as': 'AS', 'is': 'IS', 'in': 'IN',
+    'notis': 'NOT_IS', 'notin': 'NOT_IN', 'out': 'OUT', 'dynamic': 'DYNAMIC', 'public': 'PUBLIC',
+    'private': 'PRIVATE', 'protected': 'PROTECTED', 'internal': 'INTERNAL', 'enum': 'ENUM',
+    'sealed': 'SEALED', 'annotation': 'ANNOTATION', 'data': 'DATA', 'inner': 'INNER',
+    'tailrec': 'TAILREC', 'operator': 'OPERATOR', 'inline': 'INLINE', 'infix': 'INFIX',
+    'external': 'EXTERNAL', 'suspend': 'SUSPEND', 'override': 'OVERRIDE', 'abstract': 'ABSTRACT',
+    'final': 'FINAL', 'open': 'OPEN', 'const': 'CONST', 'lateinit': 'LATEINIT', 'vararg': 'VARARG',
+    'noinline': 'NOINLINE', 'crossinline': 'CROSSINLINE', 'reified': 'REIFIED', 'expect': 'EXPECT',
+    'actual': 'ACTUAL'
+}
+# Termina aporte de Ronny García
+
+# Aporte de Eduardo
 tokens = (
     'NUMBER', 'FLOAT', 'BOOLEAN', 'NULL', 'CHAR', 'STRING',
     'PLUS', 'MINUS', 'TIMES', 'MODULE', 'DIVIDE', 'MOD',
@@ -36,6 +54,8 @@ tokens = (
     'COMMA', 'RANGE', 'DOT', 'COLON', 'SEMICOLON', 'ARROW', 'DOUBLECOLON',
     'ID', 'COMMENT', 'COMMENT_MULTI'
 )
+
+tokens += tuple(reserved.values()) # Aporte de Ronny
 
 t_PLUS = r'\+'
 t_MINUS = r'-'
