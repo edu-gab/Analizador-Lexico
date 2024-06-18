@@ -1,0 +1,10 @@
+// Bucle for
+var result = 0
+for (i in 1..60) {
+    if(i % 2 == 0) {
+        result += i
+        println(i)
+    }
+}
+
+println(result)
