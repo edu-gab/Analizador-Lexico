@@ -4,23 +4,14 @@ import ply.lex as lex
 Eduardo Sanchez
 '''
 tokens = (
-    'NUMBER',
-    'PLUS',
-    'MINUS',
-    'TIMES',
-    'MODULE',
-    'DIVIDE',
-    'AND',
-    'OR',
-    'NEGATE',
-    'EQUAL',
-    'INCREMENT',
-    'DECREMENT',
-    'EQUALTO',
-    'MAYORQUE',
-    'MENORQUE',
-    'MAYORIGUAL',
-    'MENORIGUAL'
+    'NUMBER', 'FLOAT', 'BOOLEAN', 'NULL', 'CHAR', 'STRING',
+    'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MOD',
+    'INCREMENT', 'DECREMENT', 'AND', 'OR', 'NOT',
+    'ASSIGN', 'ADDEQ', 'SUBEQ', 'MULTEQ', 'DIVEQ', 'MODEQ',
+    'EQEQ', 'NOTEQ', 'LTEQ', 'GTEQ', 'LT', 'GT',
+    'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LBRACK', 'RBRACK',
+    'COMMA', 'DOT', 'COLON', 'SEMICOLON', 'ARROW', 'DOUBLECOLON',
+    'ID', 'COMMENT', 'COMMENT_MULTI'
 )
 
 t_PLUS = r'\+'
@@ -28,17 +19,44 @@ t_MINUS   = r'-'
 t_TIMES   = r'\*'
 t_MODULE = r'\%'
 t_DIVIDE = r'/'
-t_AND = r'&&'
-t_OR = r'\|\|'
-t_NEGATE = r'!'
-t_EQUAL = r'\='
+t_MOD = r'%' #Robespierre Triviño
 t_INCREMENT = r'\+\+'
 t_DECREMENT = r'\-\-'
-t_EQUALTO = r'\=\='
-t_MAYORQUE = r'>'
-t_MENORQUE = r'<'
-t_MAYORIGUAL = r'>='
-t_MENORIGUAL = r'<='
+t_AND = r'&&'
+t_OR = r'\|\|'
+t_NOT = r'!'
+t_ASSIGN = r'\='#Robespierre Triviño
+# Robespierre Triviño
+t_ADDEQ = r'\+='
+t_SUBEQ = r'-='
+t_MULTEQ = r'\*='
+t_DIVEQ = r'/='
+t_MODEQ = r'%='
+# Eduardo Sanchez
+t_EQEQ = r'\=\='
+t_GT = r'>'
+t_LT = r'<'
+t_GTEQ = r'>='
+t_LTEQ = r'<='
+# 
+
+t_ID = r'[a-zA-Z_][a-zA-Z_0-9]*'
+
+
+def t_COMMENT(t):
+    r'//.*'
+    pass
+
+
+def t_COMMENT_MULTI(t):
+    r'/\*(.|\n)*?\*/'
+    pass
+
+
+def t_STRING(t):
+    r'\".*?\"'
+    t.value = t.value[1:-1]
+    return t
 
 
 def t_NUMBER(t):
@@ -59,6 +77,7 @@ def t_error(t):
 lexer = lex.lex()
 
 data = '''
+// HOLA
 3 + 4 * 10 % && || ! ++ -- = == > < >= <=
 '''
 
