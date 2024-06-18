@@ -57,7 +57,14 @@ t_GT = r'>'
 t_LT = r'<'
 t_GTEQ = r'>='
 t_LTEQ = r'<='
-
+# Comienza aporte Robespierre Triviño
+t_COMMA = r','
+t_DOT = r'\.'
+t_COLON = r':'
+t_SEMICOLON = r';'
+t_ARROW = r'->'
+t_DOUBLECOLON = r'::'
+# Termina aporte Robespierre Triviño
 
 
 def t_NUMBER(t):
