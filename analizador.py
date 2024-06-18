@@ -42,7 +42,6 @@ reserved = {
     'actual': 'ACTUAL'
 }
 # Termina aporte de Ronny García
-
 # Aporte de Eduardo
 tokens = (
     'NUMBER', 'FLOAT', 'BOOLEAN', 'NULL', 'CHAR', 'STRING',
@@ -99,55 +98,56 @@ t_LBRACK = r'\['
 t_RBRACK = r'\]'
 
 
+# Aqui comienza aporte de Robespierre
 def t_NUMBER(t):
     r'\d+'
     t.value = int(t.value)
     return t
 
-
-# Aqui comienza aporte de Robespierre
 def t_FLOAT(t):
     r'\d+\.\d+([eE][+-]?\d+)?'
     t.value = float(t.value)
     return t
-
 
 def t_BOOLEAN(t):
     r'true|false'
     t.value = (t.value == 'true')
     return t
 
-
 def t_NULL(t):
     r'null'
     t.value = None
     return t
-
 
 def t_CHAR(t):
     r'\'([^\\\n]|(\\[nrt0\'"\\]))\''
     t.value = t.value[1:-1]
     return t
 
-
 def t_STRING(t):
     r'\"([^\\\n]|(\\[nrt0\'"\\]))*\"'
     t.value = t.value[1:-1]
     return t
 
-
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
+    t.type = reserved.get(t.value, 'ID')
     return t
 
+def t_SHEBANG(t):
+    r'\#!.*'
+    pass
 
-def t_COMMENT(t):
+def t_LINE_COMMENT(t):
     r'//.*'
     pass
 
-
-def t_COMMENT_MULTI(t):
+def t_DELIMITED_COMMENT(t):
     r'/\*(.|\n)*?\*/'
+    pass
+
+def t_WS(t):
+    r'[ \t]+'
     pass
 
 
