@@ -29,7 +29,7 @@ tokens = (
     'ASSIGN', 'ADDEQ', 'SUBEQ', 'MULTEQ', 'DIVEQ', 'MODEQ',
     'EQEQ', 'NOTEQ', 'LTEQ', 'GTEQ', 'LT', 'GT',
     'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LBRACK', 'RBRACK',
-    'COMMA', 'DOT', 'COLON', 'SEMICOLON', 'ARROW', 'DOUBLECOLON',
+    'COMMA', 'RANGE','DOT', 'COLON', 'SEMICOLON', 'ARROW', 'DOUBLECOLON',
     'ID', 'COMMENT', 'COMMENT_MULTI'
 )
 
@@ -59,6 +59,7 @@ t_GTEQ = r'>='
 t_LTEQ = r'<='
 # Comienza aporte Robespierre Triviño
 t_COMMA = r','
+t_RANGE = r'\.\.'
 t_DOT = r'\.'
 t_COLON = r':'
 t_SEMICOLON = r';'
