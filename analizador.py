@@ -6,6 +6,16 @@ def generar_nombre_log(nombre):
     ahora = datetime.datetime.now()
     nombre_archivo = ahora.strftime(f"lexico-{nombre}-%d%m%Y-%Hh%M.txt")
     return nombre_archivo
+
+def leer_algoritmo(nombre_archivo):
+    try:
+        with open("algoritmos/"+nombre_archivo, 'r') as archivo:
+            contenido = archivo.read()
+        return contenido
+    except FileNotFoundError:
+        print(f"El archivo {nombre_archivo} no existe.")
+        return ""
+
 #Termina aporte Robespierre Triviño Roman
 
 
@@ -103,11 +113,8 @@ def t_error(t):
     t.lexer.skip(1)
 
 lexer = lex.lex()
-
-data = '''
-// HOLA
-3 + 4 * 10 % && || ! ++ -- = == > < >= <=
-'''
+# Aporte Robespierre Triviño
+data = leer_algoritmo("prueba_robtrivi.txt")
 file = open("logs/"+generar_nombre_log("robtrivi"), "w")
 
 lexer.input(data)
@@ -117,6 +124,7 @@ while True:
         break
     file.write(f"{tok}\n")
     print(tok)
+
 file.close()
 '''
 Eduardo Sanchez
