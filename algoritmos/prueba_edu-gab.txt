@@ -8,3 +8,5 @@ when(number){
     6 -> println("Saturday")
     7 -> println("Sunday")
 }
+
+print = 10
