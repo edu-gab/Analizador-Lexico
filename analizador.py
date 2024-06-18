@@ -14,7 +14,7 @@ Eduardo Sanchez
 '''
 tokens = (
     'NUMBER', 'FLOAT', 'BOOLEAN', 'NULL', 'CHAR', 'STRING',
-    'PLUS', 'MINUS', 'TIMES', 'DIVIDE', 'MOD',
+    'PLUS', 'MINUS', 'TIMES', 'MODULE','DIVIDE', 'MOD',
     'INCREMENT', 'DECREMENT', 'AND', 'OR', 'NOT',
     'ASSIGN', 'ADDEQ', 'SUBEQ', 'MULTEQ', 'DIVEQ', 'MODEQ',
     'EQEQ', 'NOTEQ', 'LTEQ', 'GTEQ', 'LT', 'GT',
@@ -108,7 +108,7 @@ data = '''
 // HOLA
 3 + 4 * 10 % && || ! ++ -- = == > < >= <=
 '''
-file = open(generar_nombre_log("robtrivi"), "w")
+file = open("logs/"+generar_nombre_log("robtrivi"), "w")
 
 lexer.input(data)
 while True:
