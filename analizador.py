@@ -108,17 +108,16 @@ data = '''
 // HOLA
 3 + 4 * 10 % && || ! ++ -- = == > < >= <=
 '''
+file = open(generar_nombre_log("robtrivi"), "w")
 
 lexer.input(data)
-
 while True:
     tok = lexer.token()
-
     if not tok:
         break
-
+    file.write(f"{tok}\n")
     print(tok)
-
+file.close()
 '''
 Eduardo Sanchez
 '''
