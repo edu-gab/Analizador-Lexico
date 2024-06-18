@@ -44,7 +44,7 @@ reserved = {
 # Termina aporte de Ronny García
 # Aporte de Eduardo
 tokens = (
-    'NUMBER', 'FLOAT', 'BOOLEAN', 'NULL', 'CHAR', 'STRING',
+    'NUMBER', 'FLOAT','DOUBLE', 'BOOLEAN', 'NULL', 'CHAR', 'STRING',
     'PLUS', 'MINUS', 'TIMES', 'MODULE', 'DIVIDE', 'MOD',
     'INCREMENT', 'DECREMENT', 'AND', 'OR', 'NOT',
     'ASSIGN', 'ADDEQ', 'SUBEQ', 'MULTEQ', 'DIVEQ', 'MODEQ',
@@ -100,10 +100,13 @@ t_RBRACK = r'\]'
 
 # Aqui comienza aporte de Robespierre
 def t_FLOAT(t):
+    r'\d+\.\d+([eE][+-]?\d+)?f'
+    t.value = float(t.value[:-1])
+    return t
+def t_DOUBLE(t):
     r'\d+\.\d+([eE][+-]?\d+)?'
     t.value = float(t.value)
     return t
-
 def t_NUMBER(t):
     r'\d+'
     t.value = int(t.value)
