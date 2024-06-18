@@ -110,6 +110,7 @@ def t_COMMENT_MULTI(t):
     r'/\*(.|\n)*?\*/'
     pass
 # Aqui termina aporte de Robespierre
+
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
@@ -121,10 +122,10 @@ def t_error(t):
     t.lexer.skip(1)
 
 lexer = lex.lex()
-# Aporte Robespierre Triviño
+# Comienza aporte Robespierre Triviño
 data = leer_algoritmo("prueba_robtrivi.txt")
 file = open("logs/"+generar_nombre_log("robtrivi"), "w")
-
+# Termina aporte Robespierre Triviño
 lexer.input(data)
 while True:
     tok = lexer.token()
