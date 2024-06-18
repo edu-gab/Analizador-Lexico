@@ -1,0 +1,10 @@
+var number = 4
+when(number){
+    1 -> println("Monday")
+    2 -> println("Thursday")
+    3 -> println("Wednesay")
+    4 -> println("Tuesday")
+    5 -> println("Friday")
+    6 -> println("Saturday")
+    7 -> println("Sunday")
+}

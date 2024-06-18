@@ -65,6 +65,13 @@ t_SEMICOLON = r';'
 t_ARROW = r'->'
 t_DOUBLECOLON = r'::'
 # Termina aporte Robespierre Triviño
+# Comienza aporte Eduardo Sanchez
+t_LPAREN = r'\('
+t_RPAREN = r'\)'
+t_LBRACE = r'\{'
+t_RBRACE = r'\}'
+t_LBRACK = r'\['
+t_RBRACK = r'\]'
 
 
 def t_NUMBER(t):
@@ -121,8 +128,8 @@ def t_error(t):
 
 lexer = lex.lex()
 # Aporte Robespierre Triviño
-data = leer_algoritmo("prueba_robtrivi.txt")
-file = open("logs/"+generar_nombre_log("robtrivi"), "w")
+data = leer_algoritmo("prueba_edu-gab.txt")
+file = open("logs/"+generar_nombre_log("edu-gab"), "w")
 
 lexer.input(data)
 while True:
