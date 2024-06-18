@@ -1,7 +1,7 @@
 import ply.lex as lex
 import datetime
 
-estudiante = "robtrivi"
+estudiante = "edu-gab"
 
 
 # Comienza aporte Robespierre Triviño Roman
