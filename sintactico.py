@@ -43,7 +43,10 @@ def p_Sfunction(p):
 
 
 def p_dataT(p):
-    'data : INT | CHAR | FLOAT | STR '
+    '''data : INT 
+    | CHAR 
+    | FLOAT 
+    | STR '''
 
 
 def p_atribC(p):
@@ -80,8 +83,8 @@ def p_assignmentLU(p):
 
 
 def p_vas(p):
-    'vas : VAL|VAR'
-
+    '''vas : VAL
+    | VAR'''
 
 # Termina aporte de Ronny
 
