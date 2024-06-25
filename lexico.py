@@ -1,18 +1,18 @@
 import ply.lex as lex
-
-
+import datetime
 # Termina aporte Robespierre Triviño Roman
 
 # Aporte de Ronny
 reserved = {
+    'list': 'LIST',  'println': 'PRINTLN',  'print': 'PRINT','listof': 'listof',  'unit': 'UNIT',
     'package': 'PACKAGE', 'import': 'IMPORT', 'class': 'CLASS', 'interface': 'INTERFACE',
     'fun': 'FUN', 'object': 'OBJECT', 'val': 'VAL', 'var': 'VAR', 'typealias': 'TYPE_ALIAS',
     'constructor': 'CONSTRUCTOR', 'by': 'BY', 'companion': 'COMPANION', 'init': 'INIT',
     'this': 'THIS', 'super': 'SUPER', 'typeof': 'TYPEOF', 'where': 'WHERE', 'if': 'IF',
     'else': 'ELSE', 'when': 'WHEN', 'try': 'TRY', 'catch': 'CATCH', 'finally': 'FINALLY',
     'for': 'FOR', 'do': 'DO', 'while': 'WHILE', 'throw': 'THROW', 'return': 'RETURN',
-    'continue': 'CONTINUE', 'break': 'BREAK', 'as': 'AS', 'is': 'IS', 'in': 'IN',
-    'notis': 'NOT_IS', 'notin': 'NOT_IN', 'out': 'OUT', 'dynamic': 'DYNAMIC', 'public': 'PUBLIC',
+    'continue': 'CONTINUE', 'break': 'BREAK', 'as': 'AS', 'is': 'IS', 'in': 'IN', 'each': 'EACH','mapof':"MAPOF",
+    'notis': 'NOT_IS', 'notin': 'NOT_IN', 'out': 'OUT', 'dynamic': 'DYNAMIC', 'public': 'PUBLIC',"to":"TO",
     'private': 'PRIVATE', 'protected': 'PROTECTED', 'internal': 'INTERNAL', 'enum': 'ENUM',
     'sealed': 'SEALED', 'annotation': 'ANNOTATION', 'data': 'DATA', 'inner': 'INNER',
     'tailrec': 'TAILREC', 'operator': 'OPERATOR', 'inline': 'INLINE', 'infix': 'INFIX',
@@ -31,7 +31,7 @@ tokens = (
     'EQEQ', 'NOTEQ', 'LTEQ', 'GTEQ', 'LT', 'GT',
     'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LBRACK', 'RBRACK',
     'COMMA', 'RANGE', 'DOT', 'COLON', 'SEMICOLON', 'ARROW', 'DOUBLECOLON',
-    'ID', 'LINE_COMMENT', 'DELIMITED_COMMENT','SHEBANG','WS'
+    'ID', 'LINE_COMMENT', 'DELIMITED_COMMENT','SHEBANG','WS',"TYPEDATA"
 )
 
 tokens += tuple(reserved.values()) # Aporte de Ronny
@@ -41,6 +41,7 @@ t_MINUS = r'-'
 t_TIMES = r'\*'
 t_MODULE = r'\%'
 t_DIVIDE = r'/'
+
 t_MOD = r'%'  # Robespierre Triviño
 t_INCREMENT = r'\+\+'
 t_DECREMENT = r'\-\-'
@@ -70,6 +71,7 @@ t_ARROW = r'->'
 t_DOUBLECOLON = r'::'
 # Termina aporte Robespierre Triviño
 # Comienza aporte Eduardo Sanchez
+t_TYPEDATA = r'String|Boolean|Char|Float|Int'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_LBRACE = r'\{'
@@ -112,10 +114,13 @@ def t_STRING(t):
     t.value = t.value[1:-1]
     return t
 
+
 def t_ID(t):
     r'[a-zA-Z_][a-zA-Z_0-9]*'
     t.type = reserved.get(t.value, 'ID')
     return t
+
+
 
 def t_SHEBANG(t):
     r'\#!.*'

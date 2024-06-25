@@ -8,7 +8,7 @@ from lexico import *
 
 # Estructura de control (WHILE)
 def p_while(p):
-    'exec : WHILE LPAREN ID comparation INT RPAREN LBRACE option RBRACE'
+    'exec : WHILE LPAREN ID comparation NUMBER RPAREN LBRACE option RBRACE'
 
 
 # Estructura de datos (CLASS)
@@ -17,13 +17,15 @@ def p_classD(p):
 
 
 def p_atrib(p):
-    'atrib : vas ID DOUBLEP TYPEDATA EQUALS data'
+    'atrib : vas ID COLON TYPEDATA ASSIGN data'
 
 
 def p_comparation(p):
-    '''comparation : EQUALS
-    | GREATERTHAN
-    | LESSTHAN
+    '''comparation : EQEQ
+    | GT
+    | LT
+    | GTEQ
+    | LTEQ
     '''
 
 
@@ -39,14 +41,14 @@ def p_printDW(p):
 
 # Declaracion de funcion
 def p_Sfunction(p):
-    'exec : FUN ID LPAREN funcionparametro RPAREN DOUBLEP data LBRACE RETURN ID RBRACE'
+    'exec : FUN ID LPAREN funcionparametro RPAREN COLON data LBRACE RETURN ID RBRACE'
 
 
 def p_dataT(p):
-    '''data : INT 
+    '''data : NUMBER 
     | CHAR 
     | FLOAT 
-    | STR '''
+    | STRING '''
 
 
 def p_atribC(p):
@@ -63,15 +65,15 @@ def p_option(p):
 
 
 def p_Cif(p):
-    'exec : IF LPAREN ID comparation INT RPAREN LBRACE option RBRACE'
+    'exec : IF LPAREN ID comparation NUMBER RPAREN LBRACE option RBRACE'
 
 
 def p_elif(p):
-    'exec : IF LPAREN ID comparation INT RPAREN LBRACE option RBRACE ELSE LBRACE option RBRACE'
+    'exec : IF LPAREN ID comparation NUMBER RPAREN LBRACE option RBRACE ELSE LBRACE option RBRACE'
 
 
 def p_assignment(p):
-    'assignment : vas ID EQUALS data'
+    'assignment : vas ID ASSIGN data'
 
 
 def p_assignmentL(p):
@@ -92,22 +94,22 @@ def p_vas(p):
 # Comienza aporte Robespierre Triviño
 # for (i in 2){}
 def p_for1(p):
-  'exec : FOR LPAREN ID IN INT RPAREN FUNSEP FUNSEP'
+  'exec : FOR LPAREN ID IN NUMBER RPAREN LBRACE RBRACE'
 
 
 # val nombres: List<String> = listOf("Juan", "María", "Pedro",....)
 # val nombres: List<int> = listOf(1,2,3,4,....)
 def p_lista1(p):
-  'exec : VAL ID DOUBLEP LIST LESSTHAN liststring RPAREN'
+  'exec : VAL ID COLON LIST LT liststring RPAREN'
 
 def p_liststring(p):
-    ''' liststring : STRING GREATERTHAN EQUALS listof LPAREN listadostringproduccion
-  | INT GREATERTHAN EQUALS listof LPAREN listadointproduccion
+    ''' liststring : STRING GT ASSIGN listof LPAREN listadostringproduccion
+  | NUMBER GT ASSIGN listof LPAREN listadointproduccion
   '''
 
 
 def p_listadostring(p):
-    'listadostring : STR'
+    'listadostring : STRING'
 
 
 def p_listadostringproduccion(p):
@@ -117,7 +119,7 @@ def p_listadostringproduccion(p):
 
 
 def p_listadoint(p):
-    'listadoint : INT'
+    'listadoint : NUMBER'
 
 
 def p_listadointproduccion(p):
@@ -128,22 +130,22 @@ def p_listadointproduccion(p):
 
 # fun nombreFuncion(parametro1: Tipo, parametro2: Tipo): Unit {}
 def p_funcion(p):
-  'exec : FUN ID LPAREN funcionproduccion RPAREN DOUBLEP UNIT FUNSEP FUNSEP'
+  'exec : FUN ID LPAREN funcionproduccion RPAREN COLON UNIT LBRACE RBRACE'
 
 def p_funcionparametro(p):
-    ''' funcionparametro : ID DOUBLEP funciondato
+    ''' funcionparametro : ID COLON funciondato
   '''
 
 
 def p_funciondato(p):
     ''' funciondato : STRING
-  | INTEGER
+  | NUMBER
   '''
 
 
 def p_funcionproduccion(p):
     ''' funcionproduccion : funcionparametro
-  | ID DOUBLEP funciondato COMMA funcionproduccion
+  | ID COLON funciondato COMMA funcionproduccion
   '''
 
 
@@ -158,23 +160,21 @@ def p_error(p):
 # Estructura de control - ForEach
 # For Each: list.forEach {(it)}
 def p_forEach(p):
-    'exec : ID DOT FOR EACH FUNSEP PRINTLN LPAREN ID RPAREN FUNSEP'
+    'exec : ID DOT FOR EACH LBRACE PRINTLN LPAREN ID RPAREN RBRACE'
 
 
 # Estructura de datos - Diccionario o Mapa
 # Map<String, Int> = mapOf( Pair("Num1", 1), Pair("Num2", 2), Pair("Num3", 3))
 def p_map(p):
-    '''exec : MAP LESSTHAN TYPEDATA COMMA TYPEDATA GREATERTHAN EQUALS MAP OF LPAREN pares RPAREN'''
+    '''exec : MAPOF LPAREN pares RPAREN'''
 
 
 def p_pares(p):
     '''pares : pair
-    | pair COMMA pares
+            | pair COMMA pares
              '''
-
-
 def p_pair(p):
-    '''pair : PAIR LPAREN data COMMA data RPAREN'''
+    '''pair : data TO data'''
 
 #Función con parámetro preterminado
 #fun nombreFuncion(parametro1: Tipo, parametro2: Tipo = valorPredeterminado) { codigo }
@@ -183,7 +183,7 @@ def p_exec(p):
 
 
 def p_function(p):
-    '''function : FUN ID LPAREN params RPAREN DOUBLEP FUNSEP'''
+    '''function : FUN ID LPAREN params RPAREN COLON LBRACE RBRACE'''
 
 
 def p_params(p):
@@ -192,13 +192,13 @@ def p_params(p):
 
 
 def p_param(p):
-    '''param : ID DOUBLEP TYPEDATA
-             | ID DOUBLEP TYPEDATA EQUALS data'''
+    '''param : ID COLON TYPEDATA
+             | ID COLON TYPEDATA ASSIGN data'''
 
 
 # Función
 def p_funUE(p):
-  'exec : FUN ID LPAREN funcionproduccion RPAREN DOUBLEP TYPEDATA EQUALS assignment'
+  'exec : FUN ID LPAREN funcionproduccion RPAREN COLON TYPEDATA ASSIGN assignment'
 
 sin_analyzer = yacc.yacc()
 
