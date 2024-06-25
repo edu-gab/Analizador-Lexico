@@ -1,6 +1,5 @@
+from lexico import tokens
 import ply.yacc as yacc
-from lexico import *
-
 
 ## Analizador Sintáctico
 
@@ -133,8 +132,7 @@ def p_funcion(p):
   'exec : FUN ID LPAREN funcionproduccion RPAREN COLON UNIT LBRACE RBRACE'
 
 def p_funcionparametro(p):
-    ''' funcionparametro : ID COLON funciondato
-  '''
+    ''' funcionparametro : ID COLON funciondato '''
 
 
 def p_funciondato(p):
@@ -152,7 +150,6 @@ def p_funcionproduccion(p):
 def p_error(p):
     if p:
         print("Error de sintaxis en token:", p.type)
-    # sintactico.errok()
     else:
         print("Syntax error at EOF")
 
