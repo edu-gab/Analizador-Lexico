@@ -1,7 +1,7 @@
 import ply.lex as lex
 import datetime
 
-estudiante = "rsgarcia0203"
+estudiante = "robtrivi"
 
 
 # Comienza aporte Robespierre Triviño Roman
@@ -44,14 +44,14 @@ reserved = {
 # Termina aporte de Ronny García
 # Aporte de Eduardo
 tokens = (
-    'NUMBER', 'FLOAT', 'BOOLEAN', 'NULL', 'CHAR', 'STRING',
+    'NUMBER', 'FLOAT','DOUBLE', 'BOOLEAN', 'NULL', 'CHAR', 'STRING',
     'PLUS', 'MINUS', 'TIMES', 'MODULE', 'DIVIDE', 'MOD',
     'INCREMENT', 'DECREMENT', 'AND', 'OR', 'NOT',
     'ASSIGN', 'ADDEQ', 'SUBEQ', 'MULTEQ', 'DIVEQ', 'MODEQ',
     'EQEQ', 'NOTEQ', 'LTEQ', 'GTEQ', 'LT', 'GT',
     'LPAREN', 'RPAREN', 'LBRACE', 'RBRACE', 'LBRACK', 'RBRACK',
     'COMMA', 'RANGE', 'DOT', 'COLON', 'SEMICOLON', 'ARROW', 'DOUBLECOLON',
-    'ID', 'COMMENT', 'COMMENT_MULTI'
+    'ID', 'LINE_COMMENT', 'DELIMITED_COMMENT','SHEBANG','WS'
 )
 
 tokens += tuple(reserved.values()) # Aporte de Ronny
@@ -99,15 +99,20 @@ t_RBRACK = r'\]'
 
 
 # Aqui comienza aporte de Robespierre
+def t_FLOAT(t):
+    r'\d+\.\d+([eE][+-]?\d+)?f'
+    t.value = float(t.value[:-1])
+    return t
+def t_DOUBLE(t):
+    r'\d+\.\d+([eE][+-]?\d+)?'
+    t.value = float(t.value)
+    return t
 def t_NUMBER(t):
     r'\d+'
     t.value = int(t.value)
     return t
 
-def t_FLOAT(t):
-    r'\d+\.\d+([eE][+-]?\d+)?'
-    t.value = float(t.value)
-    return t
+
 
 def t_BOOLEAN(t):
     r'true|false'
