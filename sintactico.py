@@ -119,8 +119,10 @@ def p_empty(p):
     pass
 
 def p_error(p):
-    print(f"Syntax error at '{p}'")
-
+    if p:
+        print("Error de sintaxis en token:", p)
+    else:
+        print("Syntax error at EOF")
 parser = yacc.yacc()
 
 # Ejemplo de uso
