@@ -21,8 +21,10 @@ def p_statement(p):
                  | expression
                  | print
                  | input
+                 | repeat
                  | condition
                  | loop
+                 | range
                  | data_structure'''
 # Aporte de Eduardo
 def p_assignment(p):
@@ -60,6 +62,9 @@ def p_expression_string(p):
 # Aporte de Eduardo
 def p_expression_id(p):
     '''expression : ID'''
+# Aporte dr Robespierre
+def p_range(p):
+    '''range : NUMBER RANGE NUMBER'''
 # Aporte de Robespierre funcion 1
 def p_print(p):
     '''print : PRINTLN LPAREN argument_list RPAREN
@@ -73,6 +78,9 @@ def p_argument_list(p):
 # Aporte de Eduardo funcion 2
 def p_input(p):
     '''input : READLINE LPAREN RPAREN'''
+# Aporte de Robespierre funcion 3
+def p_repeat(p):
+    '''repeat : REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE'''
 # Aporte de Ronny
 def p_condition(p):
     '''condition : IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -82,7 +90,8 @@ def p_loop_while(p):
     '''loop : WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE'''
 # Aporte Robespierre
 def p_loop_for(p):
-    '''loop : FOR LPAREN ID IN data_structure RPAREN LBRACE statement_list RBRACE'''
+    '''loop : FOR LPAREN ID IN data_structure RPAREN LBRACE statement_list RBRACE
+            | FOR LPAREN ID IN range RPAREN LBRACE statement_list RBRACE'''
 #Aporte Robespierre
 def p_condition_when(p):
     '''condition : WHEN LPAREN expression RPAREN LBRACE when_cases RBRACE'''
@@ -129,15 +138,15 @@ parser = yacc.yacc()
 
 sin_analyzer = yacc.yacc()
 
-# while True:
-#   try:
-#     s = input('kotlin > ')
-#   except EOFError:
-#     break
-#   if not s: continue
-#   result = sin_analyzer.parse(s)
-#   if result != None:
-#     print(result)
+while True:
+  try:
+    s = input('kotlin > ')
+  except EOFError:
+    break
+  if not s: continue
+  result = sin_analyzer.parse(s)
+  if result != None:
+    print(result)
 
 
 parser = yacc.yacc()

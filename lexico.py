@@ -4,7 +4,7 @@ import datetime
 
 # Aporte de Ronny
 reserved = {
-    'list': 'LIST',"map":"MAP" ,"listOf":"LISTOF", 'println': 'PRINTLN',  'print': 'PRINT',  'unit': 'UNIT',"readline":"READLINE",
+    'list': 'LIST',"repeat":"REPEAT","map":"MAP" ,"listOf":"LISTOF", 'println': 'PRINTLN',  'print': 'PRINT',  'unit': 'UNIT',"readline":"READLINE",
     'package': 'PACKAGE', 'import': 'IMPORT', 'class': 'CLASS', 'interface': 'INTERFACE',
     'fun': 'FUN', 'object': 'OBJECT', 'val': 'VAL', 'var': 'VAR', 'typealias': 'TYPE_ALIAS',"then":"THEN","of":"OF",
     'constructor': 'CONSTRUCTOR', 'by': 'BY', 'companion': 'COMPANION', 'init': 'INIT',
