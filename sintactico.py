@@ -143,10 +143,47 @@ def p_funcionproduccion(p):
   | ID DOUBLEP funciondato COMMA funcionproduccion
   '''
 
-
 def p_error(p):
   if p:
     print("Error de sintaxis en token:", p.type)
 #sintactico.errok()
   else:
     print("Syntax error at EOF")
+
+#Estructura de control - ForEach
+#For Each: list.forEach {(it)}
+def p_forEach(p):
+    'ejec : ID DOT FOR EACH FUNSEP PRINTLN LPAREN ID RPAREN FUNSEP'
+
+#Estructura de datos - Diccionario o Mapa
+#Map<String, Int> = mapOf( Pair("Num1", 1), Pair("Num2", 2), Pair("Num3", 3))
+def p_map(p):
+    '''ejec : MAP LESSTHAN TYPEDATA COMMA TYPEDATA GREATERTHAN EQUALS MAP OF LPAREN pares RPAREN'''
+
+def p_pares(p):
+    '''pares : pair
+    | pair COMMA pares
+             '''
+
+def p_pair(p):
+    '''pair : PAIR LPAREN data COMMA data RPAREN'''
+
+#Función con parámetro preterminado
+#fun nombreFuncion(parametro1: Tipo, parametro2: Tipo = valorPredeterminado) { codigo }
+def p_ejec(p):
+    '''ejec : function'''
+
+def p_function(p):
+    '''function : FUN ID LPAREN params RPAREN DOUBLEP FUNSEP'''
+  
+def p_params(p):
+    '''params : param
+              | param COMMA params'''
+
+def p_param(p):
+    '''param : ID DOUBLEP TYPEDATA
+             | ID DOUBLEP TYPEDATA EQUALS data'''
+
+#Función
+def p_funUE(p):
+  'ejec : FUN ID LPAREN funcionproduccion RPAREN DOUBLEP TYPEDATA EQUALS assignment'
