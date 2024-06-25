@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from analizador import *
+from lexico import *
 
 ## Analizador Sintáctico
 
@@ -82,3 +82,6 @@ def p_vas(p):
     'vas : VAL|VAR'
 
 # Termina aporte de Ronny
+
+
+

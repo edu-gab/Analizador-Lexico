@@ -5,20 +5,6 @@ estudiante = "robtrivi"
 
 
 # Comienza aporte Robespierre Triviño Roman
-def generar_nombre_log(nombre):
-    ahora = datetime.datetime.now()
-    nombre_archivo = ahora.strftime(f"lexico-{nombre}-%d%m%Y-%Hh%M.txt")
-    return nombre_archivo
-
-
-def leer_algoritmo(nombre_archivo):
-    try:
-        with open("algoritmos/prueba_" + nombre_archivo, 'r') as archivo:
-            contenido = archivo.read()
-        return contenido
-    except FileNotFoundError:
-        print(f"El archivo {nombre_archivo} no existe.")
-        return ""
 
 
 # Termina aporte Robespierre Triviño Roman
@@ -178,8 +164,4 @@ lexer = lex.lex()
 '''
 Termina aporte Eduardo Sanchez
 '''
-# Comienza aporte Robespierre Triviño
-data = leer_algoritmo(estudiante + ".txt")
-file = open("logs/" + generar_nombre_log(estudiante), "w")
-# Termina aporte Robespierre Triviño
 
