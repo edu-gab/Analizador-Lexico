@@ -124,7 +124,7 @@ def p_listadointproduccion(p):
 
 #fun nombreFuncion(parametro1: Tipo, parametro2: Tipo): Unit {}
 def p_funcion(p):
-  'exec : FUN ID LPAREN funcionproduccion RPAREN DOUBLEP UNIT FUNSEP FUNSEP'
+  'exec : FUN ID LPAREN funcionproduccion RPAREN DOUBLEP UNIT LBRACE RBRACE'
 
 
 def p_funcionparametro(p):
@@ -153,7 +153,7 @@ def p_error(p):
 #Estructura de control - ForEach
 #For Each: list.forEach {(it)}
 def p_forEach(p):
-    'exec : ID DOT FOR EACH FUNSEP PRINTLN LPAREN ID RPAREN FUNSEP'
+    'exec : ID DOT FOR EACH LBRACE PRINTLN LPAREN ID RPAREN RBRACE'
 
 #Estructura de datos - Diccionario o Mapa
 #Map<String, Int> = mapOf( Pair("Num1", 1), Pair("Num2", 2), Pair("Num3", 3))
@@ -174,7 +174,7 @@ def p_exec(p):
     '''exec : function'''
 
 def p_function(p):
-    '''function : FUN ID LPAREN params RPAREN DOUBLEP FUNSEP'''
+    '''function : FUN ID LPAREN params RPAREN DOUBLEP LBRACE RBRACE'''
   
 def p_params(p):
     '''params : param
@@ -186,4 +186,4 @@ def p_param(p):
 
 #Función
 def p_funUE(p):
-  'exec : FUN ID LPAREN funcionproduccion RPAREN DOUBLEP TYPEDATA EQUALS assignment'
+  'exec : FUN ID LPAREN funcionproduccion RPAREN DOUBLEP TYPEDATA EQUALS assignment'
