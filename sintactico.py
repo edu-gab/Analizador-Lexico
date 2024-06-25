@@ -8,12 +8,12 @@ from lexico import *
 
 # Estructura de control (WHILE)
 def p_while(p):
-    'ejec : WHILE LPAREN ID comparation INT RPAREN LBRACE option RBRACE'
+    'exec : WHILE LPAREN ID comparation INT RPAREN LBRACE option RBRACE'
 
 
 # Estructura de datos (CLASS)
 def p_classD(p):
-    'ejec : CLASS ID LBRACE atribC RBRACE'
+    'exec : CLASS ID LBRACE atribC RBRACE'
 
 
 def p_atrib(p):
@@ -39,7 +39,7 @@ def p_printDW(p):
 
 # Declaracion de funcion
 def p_Sfunction(p):
-    'ejec : FUN ID LPAREN funcionparametro RPAREN DOUBLEP data LBRACE RETURN ID RBRACE'
+    'exec : FUN ID LPAREN funcionparametro RPAREN DOUBLEP data LBRACE RETURN ID RBRACE'
 
 
 def p_dataT(p):
@@ -60,11 +60,11 @@ def p_option(p):
 
 
 def p_Cif(p):
-    'ejec : IF LPAREN ID comparation INT RPAREN LBRACE option RBRACE'
+    'exec : IF LPAREN ID comparation INT RPAREN LBRACE option RBRACE'
 
 
 def p_elif(p):
-    'ejec : IF LPAREN ID comparation INT RPAREN LBRACE option RBRACE ELSE LBRACE option RBRACE'
+    'exec : IF LPAREN ID comparation INT RPAREN LBRACE option RBRACE ELSE LBRACE option RBRACE'
 
 
 def p_assignment(p):
@@ -89,14 +89,13 @@ def p_vas(p):
 # Comienza aporte Robespierre Triviño
 # for (i in 2){}
 def p_for1(p):
-    'ejec : FOR LPAREN ID IN INT RPAREN FUNSEP FUNSEP'
+  'exec : FOR LPAREN ID IN INT RPAREN FUNSEP FUNSEP'
 
 
 # val nombres: List<String> = listOf("Juan", "María", "Pedro",....)
 # val nombres: List<int> = listOf(1,2,3,4,....)
 def p_lista1(p):
-    'ejec : VAL ID DOUBLEP LIST LESSTHAN liststring RPAREN'
-
+  'exec : VAL ID DOUBLEP LIST LESSTHAN liststring RPAREN'
 
 def p_liststring(p):
     ''' liststring : STRING GREATERTHAN EQUALS listof LPAREN listadostringproduccion
@@ -126,8 +125,7 @@ def p_listadointproduccion(p):
 
 # fun nombreFuncion(parametro1: Tipo, parametro2: Tipo): Unit {}
 def p_funcion(p):
-    'ejec : FUN ID LPAREN funcionproduccion RPAREN DOUBLEP UNIT FUNSEP FUNSEP'
-
+  'exec : FUN ID LPAREN funcionproduccion RPAREN DOUBLEP UNIT FUNSEP FUNSEP'
 
 def p_funcionparametro(p):
     ''' funcionparametro : ID DOUBLEP funciondato
@@ -157,13 +155,13 @@ def p_error(p):
 # Estructura de control - ForEach
 # For Each: list.forEach {(it)}
 def p_forEach(p):
-    'ejec : ID DOT FOR EACH FUNSEP PRINTLN LPAREN ID RPAREN FUNSEP'
+    'exec : ID DOT FOR EACH FUNSEP PRINTLN LPAREN ID RPAREN FUNSEP'
 
 
 # Estructura de datos - Diccionario o Mapa
 # Map<String, Int> = mapOf( Pair("Num1", 1), Pair("Num2", 2), Pair("Num3", 3))
 def p_map(p):
-    '''ejec : MAP LESSTHAN TYPEDATA COMMA TYPEDATA GREATERTHAN EQUALS MAP OF LPAREN pares RPAREN'''
+    '''exec : MAP LESSTHAN TYPEDATA COMMA TYPEDATA GREATERTHAN EQUALS MAP OF LPAREN pares RPAREN'''
 
 
 def p_pares(p):
@@ -175,11 +173,10 @@ def p_pares(p):
 def p_pair(p):
     '''pair : PAIR LPAREN data COMMA data RPAREN'''
 
-
-# Función con parámetro preterminado
-# fun nombreFuncion(parametro1: Tipo, parametro2: Tipo = valorPredeterminado) { codigo }
-def p_ejec(p):
-    '''ejec : function'''
+#Función con parámetro preterminado
+#fun nombreFuncion(parametro1: Tipo, parametro2: Tipo = valorPredeterminado) { codigo }
+def p_exec(p):
+    '''exec : function'''
 
 
 def p_function(p):
@@ -198,8 +195,7 @@ def p_param(p):
 
 # Función
 def p_funUE(p):
-    'ejec : FUN ID LPAREN funcionproduccion RPAREN DOUBLEP TYPEDATA EQUALS assignment'
-
+  'exec : FUN ID LPAREN funcionproduccion RPAREN DOUBLEP TYPEDATA EQUALS assignment'
 
 sin_analyzer = yacc.yacc()
 
