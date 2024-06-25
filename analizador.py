@@ -189,11 +189,12 @@ file = open("logs/" + generar_nombre_log(estudiante), "w")
 ## Analizador Sintáctico
 
 # Comienza aporte de Ronny
-#estructura dd control
+
+# Estructura de control (WHILE)
 def p_while(p):
   'ejec : WHILE LPAREN ID comparation INT RPAREN LBRACE option RBRACE'
 
-#estructura de datos
+# Estructura de datos (CLASS)
 def p_classD(p):
   'ejec : CLASS ID LBRACE atribC RBRACE'
 
@@ -238,7 +239,6 @@ def p_Cif(p):
 
 def p_elif(p):
   'ejec : IF LPAREN ID comparation INT RPAREN LBRACE option RBRACE ELSE LBRACE option RBRACE' 
-  
   
   
 def p_assignment(p):
