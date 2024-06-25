@@ -1,3 +1,5 @@
+import datetime
+
 # Comienza aporte Robespierre Triviño
 def generar_nombre_log(nombre):
     ahora = datetime.datetime.now()

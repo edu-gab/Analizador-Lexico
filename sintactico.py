@@ -36,7 +36,7 @@ def p_printDW(p):
     '''
 
 
-# declaracion de funcion
+# Declaracion de funcion
 def p_Sfunction(p):
     'ejec : FUN ID LPAREN funcionparametro RPAREN DOUBLEP data LBRACE RETURN ID RBRACE'
 
@@ -84,4 +84,69 @@ def p_vas(p):
 # Termina aporte de Ronny
 
 
+# Comienza aporte Robespierre Triviño
+#for (i in 2){}
+def p_for1(p):
+  'ejec : FOR LPAREN ID IN INT RPAREN FUNSEP FUNSEP'
 
+
+# val nombres: List<String> = listOf("Juan", "María", "Pedro",....)
+# val nombres: List<int> = listOf(1,2,3,4,....)
+def p_lista1(p):
+  'ejec : VAL ID DOUBLEP LIST LESSTHAN liststring RPAREN'
+
+
+def p_liststring(p):
+  ''' liststring : STRING GREATERTHAN EQUALS listof LPAREN listadostringproduccion
+  | INT GREATERTHAN EQUALS listof LPAREN listadointproduccion
+  '''
+
+
+def p_listadostring(p):
+  'listadostring : STR'
+
+
+def p_listadostringproduccion(p):
+  ''' listadostringproduccion : listadostring
+  | listadostring COMMA listadostringproduccion
+  '''
+
+
+def p_listadoint(p):
+  'listadoint : INT'
+
+
+def p_listadointproduccion(p):
+  ''' listadointproduccion : listadoint
+  | listadoint COMMA listadointproduccion
+  '''
+
+
+#fun nombreFuncion(parametro1: Tipo, parametro2: Tipo): Unit {}
+def p_funcion(p):
+  'ejec : FUN ID LPAREN funcionproduccion RPAREN DOUBLEP UNIT FUNSEP FUNSEP'
+
+
+def p_funcionparametro(p):
+  ''' funcionparametro : ID DOUBLEP funciondato
+  '''
+
+
+def p_funciondato(p):
+  ''' funciondato : STRING
+  | INTEGER
+  '''
+
+
+def p_funcionproduccion(p):
+  ''' funcionproduccion : funcionparametro
+  | ID DOUBLEP funciondato COMMA funcionproduccion
+  '''
+
+
+def p_error(p):
+  if p:
+    print("Error de sintaxis en token:", p.type)
+#sintactico.errok()
+  else:
+    print("Syntax error at EOF")

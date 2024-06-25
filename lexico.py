@@ -1,10 +1,4 @@
 import ply.lex as lex
-import datetime
-
-estudiante = "robtrivi"
-
-
-# Comienza aporte Robespierre Triviño Roman
 
 
 # Termina aporte Robespierre Triviño Roman
@@ -164,4 +158,3 @@ lexer = lex.lex()
 '''
 Termina aporte Eduardo Sanchez
 '''
-
