@@ -1,6 +1,7 @@
 import ply.yacc as yacc
 from lexico import *
 
+
 ## Analizador Sintáctico
 
 # Comienza aporte de Ronny
@@ -42,7 +43,10 @@ def p_Sfunction(p):
 
 
 def p_dataT(p):
-    'data : INT | CHAR | FLOAT | STR '
+    '''data : INT 
+    | CHAR 
+    | FLOAT 
+    | STR '''
 
 
 def p_atribC(p):
@@ -79,15 +83,16 @@ def p_assignmentLU(p):
 
 
 def p_vas(p):
-    'vas : VAL|VAR'
+    '''vas : VAL
+    | VAR'''
 
 # Termina aporte de Ronny
 
 
 # Comienza aporte Robespierre Triviño
-#for (i in 2){}
+# for (i in 2){}
 def p_for1(p):
-  'exec : FOR LPAREN ID IN INT RPAREN FUNSEP FUNSEP'
+  'exec : FOR LPAREN ID IN INT RPAREN LBRACE RBRACE'
 
 
 # val nombres: List<String> = listOf("Juan", "María", "Pedro",....)
@@ -95,75 +100,78 @@ def p_for1(p):
 def p_lista1(p):
   'exec : VAL ID DOUBLEP LIST LESSTHAN liststring RPAREN'
 
-
 def p_liststring(p):
-  ''' liststring : STRING GREATERTHAN EQUALS listof LPAREN listadostringproduccion
+    ''' liststring : STRING GREATERTHAN EQUALS listof LPAREN listadostringproduccion
   | INT GREATERTHAN EQUALS listof LPAREN listadointproduccion
   '''
 
 
 def p_listadostring(p):
-  'listadostring : STR'
+    'listadostring : STR'
 
 
 def p_listadostringproduccion(p):
-  ''' listadostringproduccion : listadostring
+    ''' listadostringproduccion : listadostring
   | listadostring COMMA listadostringproduccion
   '''
 
 
 def p_listadoint(p):
-  'listadoint : INT'
+    'listadoint : INT'
 
 
 def p_listadointproduccion(p):
-  ''' listadointproduccion : listadoint
+    ''' listadointproduccion : listadoint
   | listadoint COMMA listadointproduccion
   '''
 
 
-#fun nombreFuncion(parametro1: Tipo, parametro2: Tipo): Unit {}
+# fun nombreFuncion(parametro1: Tipo, parametro2: Tipo): Unit {}
 def p_funcion(p):
   'exec : FUN ID LPAREN funcionproduccion RPAREN DOUBLEP UNIT LBRACE RBRACE'
 
-
 def p_funcionparametro(p):
-  ''' funcionparametro : ID DOUBLEP funciondato
+    ''' funcionparametro : ID DOUBLEP funciondato
   '''
 
 
 def p_funciondato(p):
-  ''' funciondato : STRING
+    ''' funciondato : STRING
   | INTEGER
   '''
 
 
 def p_funcionproduccion(p):
-  ''' funcionproduccion : funcionparametro
+    ''' funcionproduccion : funcionparametro
   | ID DOUBLEP funciondato COMMA funcionproduccion
   '''
 
-def p_error(p):
-  if p:
-    print("Error de sintaxis en token:", p.type)
-#sintactico.errok()
-  else:
-    print("Syntax error at EOF")
 
-#Estructura de control - ForEach
-#For Each: list.forEach {(it)}
+def p_error(p):
+    if p:
+        print("Error de sintaxis en token:", p.type)
+    # sintactico.errok()
+    else:
+        print("Syntax error at EOF")
+
+
+# Estructura de control - ForEach
+# For Each: list.forEach {(it)}
 def p_forEach(p):
     'exec : ID DOT FOR EACH LBRACE PRINTLN LPAREN ID RPAREN RBRACE'
 
-#Estructura de datos - Diccionario o Mapa
-#Map<String, Int> = mapOf( Pair("Num1", 1), Pair("Num2", 2), Pair("Num3", 3))
+
+# Estructura de datos - Diccionario o Mapa
+# Map<String, Int> = mapOf( Pair("Num1", 1), Pair("Num2", 2), Pair("Num3", 3))
 def p_map(p):
     '''exec : MAP LESSTHAN TYPEDATA COMMA TYPEDATA GREATERTHAN EQUALS MAP OF LPAREN pares RPAREN'''
+
 
 def p_pares(p):
     '''pares : pair
     | pair COMMA pares
              '''
+
 
 def p_pair(p):
     '''pair : PAIR LPAREN data COMMA data RPAREN'''
@@ -173,17 +181,35 @@ def p_pair(p):
 def p_exec(p):
     '''exec : function'''
 
+
 def p_function(p):
     '''function : FUN ID LPAREN params RPAREN DOUBLEP LBRACE RBRACE'''
   
+
 def p_params(p):
     '''params : param
               | param COMMA params'''
+
 
 def p_param(p):
     '''param : ID DOUBLEP TYPEDATA
              | ID DOUBLEP TYPEDATA EQUALS data'''
 
-#Función
+
+# Función
 def p_funUE(p):
   'exec : FUN ID LPAREN funcionproduccion RPAREN DOUBLEP TYPEDATA EQUALS assignment'
+
+
+sin_analyzer = yacc.yacc()
+
+
+while True:
+    try:
+        s = input('sql > ')
+    except EOFError:
+        break
+    if not s: continue
+    result = sin_analyzer.parse(s)
+    if result != None:
+        print(result)

@@ -1,0 +1,315 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    ABSTRACT
+    ACTUAL
+    ADDEQ
+    AND
+    ANNOTATION
+    ARROW
+    AS
+    ASSIGN
+    BOOLEAN
+    BREAK
+    BY
+    CATCH
+    COLON
+    COMPANION
+    CONST
+    CONSTRUCTOR
+    CONTINUE
+    CROSSINLINE
+    DATA
+    DECREMENT
+    DELIMITED_COMMENT
+    DIVEQ
+    DIVIDE
+    DO
+    DOUBLE
+    DOUBLECOLON
+    DYNAMIC
+    ENUM
+    EQEQ
+    EXPECT
+    EXTERNAL
+    FINAL
+    FINALLY
+    GT
+    GTEQ
+    IMPORT
+    INCREMENT
+    INFIX
+    INIT
+    INLINE
+    INNER
+    INTERFACE
+    INTERNAL
+    IS
+    LATEINIT
+    LBRACK
+    LINE_COMMENT
+    LT
+    LTEQ
+    MINUS
+    MOD
+    MODEQ
+    MODULE
+    MULTEQ
+    NOINLINE
+    NOT
+    NOTEQ
+    NOT_IN
+    NOT_IS
+    NULL
+    NUMBER
+    OBJECT
+    OPEN
+    OPERATOR
+    OR
+    OUT
+    OVERRIDE
+    PACKAGE
+    PLUS
+    PRIVATE
+    PROTECTED
+    PUBLIC
+    RANGE
+    RBRACK
+    REIFIED
+    SEALED
+    SEMICOLON
+    SHEBANG
+    SUBEQ
+    SUPER
+    SUSPEND
+    TAILREC
+    THIS
+    THROW
+    TIMES
+    TRY
+    TYPEOF
+    TYPE_ALIAS
+    VARARG
+    WHEN
+    WHERE
+    WS
+
+Grammar
+
+Rule 0     S' -> exec
+Rule 1     exec -> WHILE LPAREN ID comparation INT RPAREN LBRACE option RBRACE
+Rule 2     exec -> CLASS ID LBRACE atribC RBRACE
+Rule 3     atrib -> vas ID DOUBLEP TYPEDATA EQUALS data
+Rule 4     comparation -> EQUALS
+Rule 5     comparation -> GREATERTHAN
+Rule 6     comparation -> LESSTHAN
+Rule 7     print -> PRINTLN LPAREN data RPAREN
+Rule 8     printDW -> print
+Rule 9     printDW -> print printDW
+Rule 10    exec -> FUN ID LPAREN funcionparametro RPAREN DOUBLEP data LBRACE RETURN ID RBRACE
+Rule 11    data -> INT
+Rule 12    data -> CHAR
+Rule 13    data -> FLOAT
+Rule 14    data -> STR
+Rule 15    atribC -> atrib
+Rule 16    atribC -> atrib atribC
+Rule 17    option -> assignment
+Rule 18    option -> assignmentL
+Rule 19    option -> printDW
+Rule 20    exec -> IF LPAREN ID comparation INT RPAREN LBRACE option RBRACE
+Rule 21    exec -> IF LPAREN ID comparation INT RPAREN LBRACE option RBRACE ELSE LBRACE option RBRACE
+Rule 22    assignment -> vas ID EQUALS data
+Rule 23    assignmentL -> assignmentL assignment
+Rule 24    assignmentL -> assignment
+Rule 25    vas -> VAL
+Rule 26    vas -> VAR
+Rule 27    exec -> FOR LPAREN ID IN INT RPAREN FUNSEP FUNSEP
+Rule 28    exec -> VAL ID DOUBLEP LIST LESSTHAN liststring RPAREN
+Rule 29    liststring -> STRING GREATERTHAN EQUALS listof LPAREN listadostringproduccion
+Rule 30    liststring -> INT GREATERTHAN EQUALS listof LPAREN listadointproduccion
+Rule 31    listadostring -> STR
+Rule 32    listadostringproduccion -> listadostring
+Rule 33    listadostringproduccion -> listadostring COMMA listadostringproduccion
+Rule 34    listadoint -> INT
+Rule 35    listadointproduccion -> listadoint
+Rule 36    listadointproduccion -> listadoint COMMA listadointproduccion
+Rule 37    exec -> FUN ID LPAREN funcionproduccion RPAREN DOUBLEP UNIT FUNSEP FUNSEP
+Rule 38    funcionparametro -> ID DOUBLEP funciondato
+Rule 39    funciondato -> STRING
+Rule 40    funciondato -> INTEGER
+Rule 41    funcionproduccion -> funcionparametro
+Rule 42    funcionproduccion -> ID DOUBLEP funciondato COMMA funcionproduccion
+Rule 43    exec -> ID DOT FOR EACH FUNSEP PRINTLN LPAREN ID RPAREN FUNSEP
+Rule 44    exec -> MAP LESSTHAN TYPEDATA COMMA TYPEDATA GREATERTHAN EQUALS MAP OF LPAREN pares RPAREN
+Rule 45    pares -> pair
+Rule 46    pares -> pair COMMA pares
+Rule 47    pair -> PAIR LPAREN data COMMA data RPAREN
+Rule 48    exec -> function
+Rule 49    function -> FUN ID LPAREN params RPAREN DOUBLEP FUNSEP
+Rule 50    params -> param
+Rule 51    params -> param COMMA params
+Rule 52    param -> ID DOUBLEP TYPEDATA
+Rule 53    param -> ID DOUBLEP TYPEDATA EQUALS data
+Rule 54    exec -> FUN ID LPAREN funcionproduccion RPAREN DOUBLEP TYPEDATA EQUALS assignment
+
+Terminals, with rules where they appear
+
+ABSTRACT             : 
+ACTUAL               : 
+ADDEQ                : 
+AND                  : 
+ANNOTATION           : 
+ARROW                : 
+AS                   : 
+ASSIGN               : 
+BOOLEAN              : 
+BREAK                : 
+BY                   : 
+CATCH                : 
+CHAR                 : 12
+CLASS                : 2
+COLON                : 
+COMMA                : 33 36 42 44 46 47 51
+COMPANION            : 
+CONST                : 
+CONSTRUCTOR          : 
+CONTINUE             : 
+CROSSINLINE          : 
+DATA                 : 
+DECREMENT            : 
+DELIMITED_COMMENT    : 
+DIVEQ                : 
+DIVIDE               : 
+DO                   : 
+DOT                  : 43
+DOUBLE               : 
+DOUBLECOLON          : 
+DYNAMIC              : 
+ELSE                 : 21
+ENUM                 : 
+EQEQ                 : 
+EXPECT               : 
+EXTERNAL             : 
+FINAL                : 
+FINALLY              : 
+FLOAT                : 13
+FOR                  : 27 43
+FUN                  : 10 37 49 54
+GT                   : 
+GTEQ                 : 
+ID                   : 1 2 3 10 10 20 21 22 27 28 37 38 42 43 43 49 52 53 54
+IF                   : 20 21
+IMPORT               : 
+IN                   : 27
+INCREMENT            : 
+INFIX                : 
+INIT                 : 
+INLINE               : 
+INNER                : 
+INTERFACE            : 
+INTERNAL             : 
+IS                   : 
+LATEINIT             : 
+LBRACE               : 1 2 10 20 21 21
+LBRACK               : 
+LINE_COMMENT         : 
+LPAREN               : 1 7 10 20 21 27 29 30 37 43 44 47 49 54
+LT                   : 
+LTEQ                 : 
+MINUS                : 
+MOD                  : 
+MODEQ                : 
+MODULE               : 
+MULTEQ               : 
+NOINLINE             : 
+NOT                  : 
+NOTEQ                : 
+NOT_IN               : 
+NOT_IS               : 
+NULL                 : 
+NUMBER               : 
+OBJECT               : 
+OPEN                 : 
+OPERATOR             : 
+OR                   : 
+OUT                  : 
+OVERRIDE             : 
+PACKAGE              : 
+PLUS                 : 
+PRIVATE              : 
+PROTECTED            : 
+PUBLIC               : 
+RANGE                : 
+RBRACE               : 1 2 10 20 21 21
+RBRACK               : 
+REIFIED              : 
+RETURN               : 10
+RPAREN               : 1 7 10 20 21 27 28 37 43 44 47 49 54
+SEALED               : 
+SEMICOLON            : 
+SHEBANG              : 
+STRING               : 29 39
+SUBEQ                : 
+SUPER                : 
+SUSPEND              : 
+TAILREC              : 
+THIS                 : 
+THROW                : 
+TIMES                : 
+TRY                  : 
+TYPEOF               : 
+TYPE_ALIAS           : 
+VAL                  : 25 28
+VAR                  : 26
+VARARG               : 
+WHEN                 : 
+WHERE                : 
+WHILE                : 1
+WS                   : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+DOUBLEP              : 3 10 28 37 38 42 49 52 53 54
+EACH                 : 43
+EQUALS               : 3 4 22 29 30 44 53 54
+FUNSEP               : 27 27 37 37 43 43 49
+GREATERTHAN          : 5 29 30 44
+INT                  : 1 11 20 21 27 30 34
+INTEGER              : 40
+LESSTHAN             : 6 28 44
+LIST                 : 28
+MAP                  : 44 44
+OF                   : 44
+PAIR                 : 47
+PRINTLN              : 7 43
+STR                  : 14 31
+TYPEDATA             : 3 44 44 52 53 54
+UNIT                 : 37
+assignment           : 17 23 24 54
+assignmentL          : 18 23
+atrib                : 15 16
+atribC               : 2 16
+comparation          : 1 20 21
+data                 : 3 7 10 22 47 47 53
+exec                 : 0
+funciondato          : 38 42
+funcionparametro     : 10 41
+funcionproduccion    : 37 42 54
+function             : 48
+listadoint           : 35 36
+listadointproduccion : 30 36
+listadostring        : 32 33
+listadostringproduccion : 29 33
+listof               : 29 30
+liststring           : 28
+option               : 1 20 21 21
+pair                 : 45 46
+param                : 50 51
+params               : 49 51
+pares                : 44 46
+print                : 8 9
+printDW              : 9 19
+vas                  : 3 22
+
