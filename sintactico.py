@@ -185,7 +185,6 @@ def p_exec(p):
 def p_function(p):
     '''function : FUN ID LPAREN params RPAREN COLON LBRACE RBRACE'''
 
-
 def p_params(p):
     '''params : param
               | param COMMA params'''
