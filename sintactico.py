@@ -17,6 +17,9 @@ precedence = (
 def p_statement_list(p):
     '''statement_list : statement
                       | statement_list statement'''
+    
+    if len(p) == 2:
+        p[0] = p[1]
                       
 # Aporte de Ronny, Eduardo y Robespierre
 def p_statement(p):
@@ -29,6 +32,9 @@ def p_statement(p):
                  | loop
                  | range
                  | data_structure'''
+    
+    p[0] = p[1]
+        
     
 # Aporte de Eduardo
 def p_assignment(p):
@@ -141,9 +147,12 @@ def p_argument_list(p):
                      | empty'''
     
     if len(p) == 2:
-        p[0] = p[1]
+        p[0] = [p[1]]
     elif len(p) == 4:
-        p[0] = p[1] + p[3]
+        if isinstance(p[1], list):
+            p[0] = p[1] + [p[3]]  # Si p[1] es una lista, concatenamos el nuevo argumento
+        else:
+            p[0] = [p[1], p[3]]  # Si p[1] no es una lista, creamos una nueva lista
     else:
         p[0] = []
     
