@@ -29,6 +29,7 @@ def p_statement(p):
                  | loop
                  | range
                  | data_structure'''
+    
 # Aporte de Eduardo
 def p_assignment(p):
     '''assignment : VAR ID ASSIGN expression
@@ -125,14 +126,12 @@ def p_range(p):
 # Aporte de Robespierre funcion 1
 # Aqui va argument_list, lo cambie para probar, habria que hacer el cambio en argument list
 def p_print(p):
-    '''print : PRINTLN LPAREN expression RPAREN 
-             | PRINT LPAREN expression RPAREN'''
+    '''print : PRINTLN LPAREN argument_list RPAREN 
+             | PRINT LPAREN argument_list RPAREN'''
     
-    #Aporte de Eduardo Sanchez
-    if not isinstance(p[3], str) or p[3] in variables:
-        pass
-    else:
-        print(f"Error semantico: La variable {p[3]} no ha sido inicializada")
+    for exp in p[3]:
+        if isinstance(exp, str) and exp not in variables:
+            print(f"Error semántico: La variable {exp} no ha sido inicializada")
     
 # Aporte de Eduardo
 def p_argument_list(p):
@@ -141,12 +140,23 @@ def p_argument_list(p):
                      | argument_list COMMA expression
                      | empty'''
     
+    if len(p) == 2:
+        p[0] = p[1]
+    elif len(p) == 4:
+        p[0] = p[1] + p[3]
+    else:
+        p[0] = []
+    
 # Aporte de Eduardo funcion 2
 def p_input(p):
     '''input : READLINE LPAREN RPAREN'''
+    print("Ingrese texto: ")
+    p[0] = input()
+    
 # Aporte de Robespierre funcion 3
 def p_repeat(p):
-    '''repeat : REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE'''
+    '''repeat : REPEAT LPAREN NUMBER RPAREN LBRACE statement_list RBRACE'''
+    
 # Aporte de Ronny
 def p_condition(p):
     '''condition : IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -154,6 +164,7 @@ def p_condition(p):
 # Aporte Eduardo
 def p_loop_while(p):
     '''loop : WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE'''
+    
 # Aporte Robespierre
 def p_loop_for(p):
     '''loop : FOR LPAREN ID IN data_structure RPAREN LBRACE statement_list RBRACE
