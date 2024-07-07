@@ -1,6 +1,8 @@
 import ply.yacc as yacc
 from lexico import *
 
+variables = {}
+
 # Definiciones de precedencia para manejar operadores
 precedence = (
     ('left', 'OR'),
@@ -15,6 +17,7 @@ precedence = (
 def p_statement_list(p):
     '''statement_list : statement
                       | statement_list statement'''
+                      
 # Aporte de Ronny, Eduardo y Robespierre
 def p_statement(p):
     '''statement : assignment
@@ -30,6 +33,10 @@ def p_statement(p):
 def p_assignment(p):
     '''assignment : VAR ID ASSIGN expression
                   | VAL ID ASSIGN expression'''
+                  
+    #Aporte de Eduardo Sanchez
+    variables[p[2]] = p[4]
+    
 # Aporte de Robespierre
 def p_expression_binop(p):
     '''expression : expression PLUS expression
@@ -45,36 +52,95 @@ def p_expression_binop(p):
                   | expression GTEQ expression
                   | expression AND expression
                   | expression OR expression'''
+    
+    #Aporte de Eduardo Sanchez
+    if not isinstance(p[1], str) or p[1] in variables:
+        pass
+    else:
+        print(f"Error semantico: La variable {p[1]} no ha sido inicializada")
+        return
+        
+    if not isinstance(p[3], str) or p[3] in variables:
+        pass
+    else:
+        print(f"Error semantico: La variable {p[3]} no ha sido inicializada")
+        return
+    
 # Aporte de Eduardo
 def p_expression_group(p):
     '''expression : LPAREN expression RPAREN'''
+    
+    #Aporte de Eduardo Sanchez
+    if not isinstance(p[1], str) and p[1] in variables:
+        p[0] = variables[p[1]]
+    else:
+        p[0] = p[1]
+        
 # Aporte de Robespierre
 def p_expression_number(p):
     '''expression : NUMBER
                   | FLOAT
                   | DOUBLE'''
+    
+    #Aporte de Eduardo Sanchez
+    if not isinstance(p[1], str) and p[1] in variables:
+        p[0] = variables[p[1]]
+    else:
+        p[0] = p[1]
+    
 # Aporte de Ronny
 def p_expression_boolean(p):
     '''expression : BOOLEAN'''
+    
+    #Aporte de Eduardo Sanchez
+    if not isinstance(p[1], str) and p[1] in variables:
+        p[0] = variables[p[1]]
+    else:
+        p[0] = p[1]
+    
 # Aporte de Robespierre
 def p_expression_string(p):
     '''expression : STRING'''
+    
+    #Aporte de Eduardo Sanchez
+    if not isinstance(p[1], str) and p[1] in variables:
+        p[0] = variables[p[1]]
+    else:
+        p[0] = p[1]
+    
 # Aporte de Eduardo
 def p_expression_id(p):
     '''expression : ID'''
+    
+    #Aporte de Eduardo Sanchez
+    if not isinstance(p[1], str) and p[1] in variables:
+        p[0] = variables[p[1]]
+    else:
+        p[0] = p[1]
+    
 # Aporte dr Robespierre
 def p_range(p):
     '''range : NUMBER RANGE NUMBER'''
+    
 # Aporte de Robespierre funcion 1
+# Aqui va argument_list, lo cambie para probar, habria que hacer el cambio en argument list
 def p_print(p):
-    '''print : PRINTLN LPAREN argument_list RPAREN
-             | PRINT LPAREN argument_list RPAREN'''
+    '''print : PRINTLN LPAREN expression RPAREN 
+             | PRINT LPAREN expression RPAREN'''
+    
+    #Aporte de Eduardo Sanchez
+    if not isinstance(p[3], str) or p[3] in variables:
+        pass
+    else:
+        print(f"Error semantico: La variable {p[3]} no ha sido inicializada")
+    
 # Aporte de Eduardo
 def p_argument_list(p):
     '''argument_list : expression
                      | expression COMMA expression
                      | argument_list COMMA expression
                      | empty'''
+    
 # Aporte de Eduardo funcion 2
 def p_input(p):
     '''input : READLINE LPAREN RPAREN'''

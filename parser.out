@@ -124,8 +124,8 @@ Rule 31    expression -> BOOLEAN
 Rule 32    expression -> STRING
 Rule 33    expression -> ID
 Rule 34    range -> NUMBER RANGE NUMBER
-Rule 35    print -> PRINTLN LPAREN argument_list RPAREN
-Rule 36    print -> PRINT LPAREN argument_list RPAREN
+Rule 35    print -> PRINTLN LPAREN expression RPAREN
+Rule 36    print -> PRINT LPAREN expression RPAREN
 Rule 37    argument_list -> expression
 Rule 38    argument_list -> expression COMMA expression
 Rule 39    argument_list -> argument_list COMMA expression
@@ -286,12 +286,12 @@ error                :
 
 Nonterminals, with rules where they appear
 
-argument_list        : 35 36 39 55 57
+argument_list        : 39 55 57
 assignment           : 3
 condition            : 8
 data_structure       : 11 46
 empty                : 40
-expression           : 4 12 13 14 14 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25 26 26 27 37 38 38 39 42 43 44 45 48 53 54 60 60
+expression           : 4 12 13 14 14 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25 26 26 27 35 36 37 38 38 39 42 43 44 45 48 53 54 60 60
 expression_list      : 51 54
 input                : 6
 loop                 : 9
@@ -344,8 +344,8 @@ state 0
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -427,8 +427,8 @@ state 1
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -1119,14 +1119,14 @@ state 20
 
 state 21
 
-    (35) print -> PRINTLN . LPAREN argument_list RPAREN
+    (35) print -> PRINTLN . LPAREN expression RPAREN
 
     LPAREN          shift and go to state 51
 
 
 state 22
 
-    (36) print -> PRINT . LPAREN argument_list RPAREN
+    (36) print -> PRINT . LPAREN expression RPAREN
 
     LPAREN          shift and go to state 52
 
@@ -1797,11 +1797,7 @@ state 50
 
 state 51
 
-    (35) print -> PRINTLN LPAREN . argument_list RPAREN
-    (37) argument_list -> . expression
-    (38) argument_list -> . expression COMMA expression
-    (39) argument_list -> . argument_list COMMA expression
-    (40) argument_list -> . empty
+    (35) print -> PRINTLN LPAREN . expression RPAREN
     (14) expression -> . expression PLUS expression
     (15) expression -> . expression MINUS expression
     (16) expression -> . expression TIMES expression
@@ -1822,7 +1818,6 @@ state 51
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (62) empty -> .
 
     LPAREN          shift and go to state 15
     NUMBER          shift and go to state 49
@@ -1831,20 +1826,12 @@ state 51
     BOOLEAN         shift and go to state 19
     STRING          shift and go to state 20
     ID              shift and go to state 13
-    RPAREN          reduce using rule 62 (empty -> .)
-    COMMA           reduce using rule 62 (empty -> .)
 
-    argument_list                  shift and go to state 79
-    expression                     shift and go to state 80
-    empty                          shift and go to state 81
+    expression                     shift and go to state 79
 
 state 52
 
-    (36) print -> PRINT LPAREN . argument_list RPAREN
-    (37) argument_list -> . expression
-    (38) argument_list -> . expression COMMA expression
-    (39) argument_list -> . argument_list COMMA expression
-    (40) argument_list -> . empty
+    (36) print -> PRINT LPAREN . expression RPAREN
     (14) expression -> . expression PLUS expression
     (15) expression -> . expression MINUS expression
     (16) expression -> . expression TIMES expression
@@ -1865,7 +1852,6 @@ state 52
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (62) empty -> .
 
     LPAREN          shift and go to state 15
     NUMBER          shift and go to state 49
@@ -1874,18 +1860,14 @@ state 52
     BOOLEAN         shift and go to state 19
     STRING          shift and go to state 20
     ID              shift and go to state 13
-    RPAREN          reduce using rule 62 (empty -> .)
-    COMMA           reduce using rule 62 (empty -> .)
 
-    argument_list                  shift and go to state 82
     expression                     shift and go to state 80
-    empty                          shift and go to state 81
 
 state 53
 
     (41) input -> READLINE LPAREN . RPAREN
 
-    RPAREN          shift and go to state 83
+    RPAREN          shift and go to state 81
 
 
 state 54
@@ -1920,7 +1902,7 @@ state 54
     STRING          shift and go to state 20
     ID              shift and go to state 13
 
-    expression                     shift and go to state 84
+    expression                     shift and go to state 82
 
 state 55
 
@@ -1940,7 +1922,7 @@ state 55
     (25) expression -> expression . AND expression
     (26) expression -> expression . OR expression
 
-    LBRACE          shift and go to state 85
+    LBRACE          shift and go to state 83
     PLUS            shift and go to state 33
     MINUS           shift and go to state 34
     TIMES           shift and go to state 35
@@ -1988,7 +1970,7 @@ state 56
     STRING          shift and go to state 20
     ID              shift and go to state 13
 
-    expression                     shift and go to state 86
+    expression                     shift and go to state 84
 
 state 57
 
@@ -2022,14 +2004,14 @@ state 57
     STRING          shift and go to state 20
     ID              shift and go to state 13
 
-    expression                     shift and go to state 87
+    expression                     shift and go to state 85
 
 state 58
 
     (46) loop -> FOR LPAREN . ID IN data_structure RPAREN LBRACE statement_list RBRACE
     (47) loop -> FOR LPAREN . ID IN range RPAREN LBRACE statement_list RBRACE
 
-    ID              shift and go to state 88
+    ID              shift and go to state 86
 
 
 state 59
@@ -2071,9 +2053,9 @@ state 59
     RPAREN          reduce using rule 62 (empty -> .)
     COMMA           reduce using rule 62 (empty -> .)
 
-    argument_list                  shift and go to state 89
-    expression                     shift and go to state 80
-    empty                          shift and go to state 81
+    argument_list                  shift and go to state 87
+    expression                     shift and go to state 88
+    empty                          shift and go to state 89
 
 state 60
 
@@ -2154,8 +2136,8 @@ state 61
     COMMA           reduce using rule 62 (empty -> .)
 
     argument_list                  shift and go to state 93
-    expression                     shift and go to state 80
-    empty                          shift and go to state 81
+    expression                     shift and go to state 88
+    empty                          shift and go to state 89
 
 state 62
 
@@ -3266,17 +3248,7 @@ state 78
 
 state 79
 
-    (35) print -> PRINTLN LPAREN argument_list . RPAREN
-    (39) argument_list -> argument_list . COMMA expression
-
-    RPAREN          shift and go to state 96
-    COMMA           shift and go to state 97
-
-
-state 80
-
-    (37) argument_list -> expression .
-    (38) argument_list -> expression . COMMA expression
+    (35) print -> PRINTLN LPAREN expression . RPAREN
     (14) expression -> expression . PLUS expression
     (15) expression -> expression . MINUS expression
     (16) expression -> expression . TIMES expression
@@ -3291,9 +3263,7 @@ state 80
     (25) expression -> expression . AND expression
     (26) expression -> expression . OR expression
 
-  ! shift/reduce conflict for COMMA resolved as shift
-    RPAREN          reduce using rule 37 (argument_list -> expression .)
-    COMMA           shift and go to state 98
+    RPAREN          shift and go to state 96
     PLUS            shift and go to state 33
     MINUS           shift and go to state 34
     TIMES           shift and go to state 35
@@ -3308,27 +3278,41 @@ state 80
     AND             shift and go to state 44
     OR              shift and go to state 45
 
-  ! COMMA           [ reduce using rule 37 (argument_list -> expression .) ]
+
+state 80
+
+    (36) print -> PRINT LPAREN expression . RPAREN
+    (14) expression -> expression . PLUS expression
+    (15) expression -> expression . MINUS expression
+    (16) expression -> expression . TIMES expression
+    (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . MOD expression
+    (19) expression -> expression . EQEQ expression
+    (20) expression -> expression . NOTEQ expression
+    (21) expression -> expression . LT expression
+    (22) expression -> expression . LTEQ expression
+    (23) expression -> expression . GT expression
+    (24) expression -> expression . GTEQ expression
+    (25) expression -> expression . AND expression
+    (26) expression -> expression . OR expression
+
+    RPAREN          shift and go to state 97
+    PLUS            shift and go to state 33
+    MINUS           shift and go to state 34
+    TIMES           shift and go to state 35
+    DIVIDE          shift and go to state 36
+    MOD             shift and go to state 37
+    EQEQ            shift and go to state 38
+    NOTEQ           shift and go to state 39
+    LT              shift and go to state 40
+    LTEQ            shift and go to state 41
+    GT              shift and go to state 42
+    GTEQ            shift and go to state 43
+    AND             shift and go to state 44
+    OR              shift and go to state 45
 
 
 state 81
-
-    (40) argument_list -> empty .
-
-    RPAREN          reduce using rule 40 (argument_list -> empty .)
-    COMMA           reduce using rule 40 (argument_list -> empty .)
-
-
-state 82
-
-    (36) print -> PRINT LPAREN argument_list . RPAREN
-    (39) argument_list -> argument_list . COMMA expression
-
-    RPAREN          shift and go to state 99
-    COMMA           shift and go to state 97
-
-
-state 83
 
     (41) input -> READLINE LPAREN RPAREN .
 
@@ -3357,7 +3341,7 @@ state 83
     ELSE            reduce using rule 41 (input -> READLINE LPAREN RPAREN .)
 
 
-state 84
+state 82
 
     (42) repeat -> REPEAT LPAREN expression . RPAREN LBRACE statement_list RBRACE
     (14) expression -> expression . PLUS expression
@@ -3374,7 +3358,7 @@ state 84
     (25) expression -> expression . AND expression
     (26) expression -> expression . OR expression
 
-    RPAREN          shift and go to state 100
+    RPAREN          shift and go to state 98
     PLUS            shift and go to state 33
     MINUS           shift and go to state 34
     TIMES           shift and go to state 35
@@ -3390,7 +3374,7 @@ state 84
     OR              shift and go to state 45
 
 
-state 85
+state 83
 
     (43) condition -> IF expression LBRACE . statement_list RBRACE ELSE LBRACE statement_list RBRACE
     (44) condition -> IF expression LBRACE . statement_list RBRACE
@@ -3427,8 +3411,8 @@ state 85
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -3464,7 +3448,7 @@ state 85
     SETOF           shift and go to state 31
 
     expression                     shift and go to state 4
-    statement_list                 shift and go to state 101
+    statement_list                 shift and go to state 99
     statement                      shift and go to state 2
     assignment                     shift and go to state 3
     print                          shift and go to state 5
@@ -3475,7 +3459,7 @@ state 85
     range                          shift and go to state 10
     data_structure                 shift and go to state 11
 
-state 86
+state 84
 
     (48) condition -> WHEN LPAREN expression . RPAREN LBRACE when_cases RBRACE
     (14) expression -> expression . PLUS expression
@@ -3492,7 +3476,7 @@ state 86
     (25) expression -> expression . AND expression
     (26) expression -> expression . OR expression
 
-    RPAREN          shift and go to state 102
+    RPAREN          shift and go to state 100
     PLUS            shift and go to state 33
     MINUS           shift and go to state 34
     TIMES           shift and go to state 35
@@ -3508,7 +3492,7 @@ state 86
     OR              shift and go to state 45
 
 
-state 87
+state 85
 
     (45) loop -> WHILE LPAREN expression . RPAREN LBRACE statement_list RBRACE
     (14) expression -> expression . PLUS expression
@@ -3525,7 +3509,7 @@ state 87
     (25) expression -> expression . AND expression
     (26) expression -> expression . OR expression
 
-    RPAREN          shift and go to state 103
+    RPAREN          shift and go to state 101
     PLUS            shift and go to state 33
     MINUS           shift and go to state 34
     TIMES           shift and go to state 35
@@ -3541,21 +3525,67 @@ state 87
     OR              shift and go to state 45
 
 
-state 88
+state 86
 
     (46) loop -> FOR LPAREN ID . IN data_structure RPAREN LBRACE statement_list RBRACE
     (47) loop -> FOR LPAREN ID . IN range RPAREN LBRACE statement_list RBRACE
 
-    IN              shift and go to state 104
+    IN              shift and go to state 102
 
 
-state 89
+state 87
 
     (55) data_structure -> LISTOF LPAREN argument_list . RPAREN
     (39) argument_list -> argument_list . COMMA expression
 
-    RPAREN          shift and go to state 105
-    COMMA           shift and go to state 97
+    RPAREN          shift and go to state 103
+    COMMA           shift and go to state 104
+
+
+state 88
+
+    (37) argument_list -> expression .
+    (38) argument_list -> expression . COMMA expression
+    (14) expression -> expression . PLUS expression
+    (15) expression -> expression . MINUS expression
+    (16) expression -> expression . TIMES expression
+    (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . MOD expression
+    (19) expression -> expression . EQEQ expression
+    (20) expression -> expression . NOTEQ expression
+    (21) expression -> expression . LT expression
+    (22) expression -> expression . LTEQ expression
+    (23) expression -> expression . GT expression
+    (24) expression -> expression . GTEQ expression
+    (25) expression -> expression . AND expression
+    (26) expression -> expression . OR expression
+
+  ! shift/reduce conflict for COMMA resolved as shift
+    RPAREN          reduce using rule 37 (argument_list -> expression .)
+    COMMA           shift and go to state 105
+    PLUS            shift and go to state 33
+    MINUS           shift and go to state 34
+    TIMES           shift and go to state 35
+    DIVIDE          shift and go to state 36
+    MOD             shift and go to state 37
+    EQEQ            shift and go to state 38
+    NOTEQ           shift and go to state 39
+    LT              shift and go to state 40
+    LTEQ            shift and go to state 41
+    GT              shift and go to state 42
+    GTEQ            shift and go to state 43
+    AND             shift and go to state 44
+    OR              shift and go to state 45
+
+  ! COMMA           [ reduce using rule 37 (argument_list -> expression .) ]
+
+
+state 89
+
+    (40) argument_list -> empty .
+
+    RPAREN          reduce using rule 40 (argument_list -> empty .)
+    COMMA           reduce using rule 40 (argument_list -> empty .)
 
 
 state 90
@@ -3614,7 +3644,7 @@ state 93
     (39) argument_list -> argument_list . COMMA expression
 
     RPAREN          shift and go to state 109
-    COMMA           shift and go to state 97
+    COMMA           shift and go to state 104
 
 
 state 94
@@ -3729,138 +3759,70 @@ state 95
 
 state 96
 
-    (35) print -> PRINTLN LPAREN argument_list RPAREN .
+    (35) print -> PRINTLN LPAREN expression RPAREN .
 
-    VAR             reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    VAL             reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    LPAREN          reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    NUMBER          reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    FLOAT           reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    DOUBLE          reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    BOOLEAN         reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    STRING          reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    ID              reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    PRINTLN         reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    PRINT           reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    READLINE        reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    REPEAT          reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    IF              reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    WHEN            reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    WHILE           reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    FOR             reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    LISTOF          reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    MAPOF           reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    SETOF           reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    $end            reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    RBRACE          reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
-    ELSE            reduce using rule 35 (print -> PRINTLN LPAREN argument_list RPAREN .)
+    VAR             reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    VAL             reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    LPAREN          reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    NUMBER          reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    FLOAT           reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    DOUBLE          reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    BOOLEAN         reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    STRING          reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    ID              reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    PRINTLN         reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    PRINT           reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    READLINE        reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    REPEAT          reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    IF              reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    WHEN            reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    WHILE           reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    FOR             reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    LISTOF          reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    MAPOF           reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    SETOF           reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    $end            reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    RBRACE          reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
+    ELSE            reduce using rule 35 (print -> PRINTLN LPAREN expression RPAREN .)
 
 
 state 97
 
-    (39) argument_list -> argument_list COMMA . expression
-    (14) expression -> . expression PLUS expression
-    (15) expression -> . expression MINUS expression
-    (16) expression -> . expression TIMES expression
-    (17) expression -> . expression DIVIDE expression
-    (18) expression -> . expression MOD expression
-    (19) expression -> . expression EQEQ expression
-    (20) expression -> . expression NOTEQ expression
-    (21) expression -> . expression LT expression
-    (22) expression -> . expression LTEQ expression
-    (23) expression -> . expression GT expression
-    (24) expression -> . expression GTEQ expression
-    (25) expression -> . expression AND expression
-    (26) expression -> . expression OR expression
-    (27) expression -> . LPAREN expression RPAREN
-    (28) expression -> . NUMBER
-    (29) expression -> . FLOAT
-    (30) expression -> . DOUBLE
-    (31) expression -> . BOOLEAN
-    (32) expression -> . STRING
-    (33) expression -> . ID
+    (36) print -> PRINT LPAREN expression RPAREN .
 
-    LPAREN          shift and go to state 15
-    NUMBER          shift and go to state 49
-    FLOAT           shift and go to state 17
-    DOUBLE          shift and go to state 18
-    BOOLEAN         shift and go to state 19
-    STRING          shift and go to state 20
-    ID              shift and go to state 13
+    VAR             reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    VAL             reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    LPAREN          reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    NUMBER          reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    FLOAT           reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    DOUBLE          reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    BOOLEAN         reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    STRING          reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    ID              reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    PRINTLN         reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    PRINT           reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    READLINE        reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    REPEAT          reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    IF              reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    WHEN            reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    WHILE           reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    FOR             reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    LISTOF          reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    MAPOF           reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    SETOF           reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    $end            reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    RBRACE          reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
+    ELSE            reduce using rule 36 (print -> PRINT LPAREN expression RPAREN .)
 
-    expression                     shift and go to state 110
 
 state 98
 
-    (38) argument_list -> expression COMMA . expression
-    (14) expression -> . expression PLUS expression
-    (15) expression -> . expression MINUS expression
-    (16) expression -> . expression TIMES expression
-    (17) expression -> . expression DIVIDE expression
-    (18) expression -> . expression MOD expression
-    (19) expression -> . expression EQEQ expression
-    (20) expression -> . expression NOTEQ expression
-    (21) expression -> . expression LT expression
-    (22) expression -> . expression LTEQ expression
-    (23) expression -> . expression GT expression
-    (24) expression -> . expression GTEQ expression
-    (25) expression -> . expression AND expression
-    (26) expression -> . expression OR expression
-    (27) expression -> . LPAREN expression RPAREN
-    (28) expression -> . NUMBER
-    (29) expression -> . FLOAT
-    (30) expression -> . DOUBLE
-    (31) expression -> . BOOLEAN
-    (32) expression -> . STRING
-    (33) expression -> . ID
-
-    LPAREN          shift and go to state 15
-    NUMBER          shift and go to state 49
-    FLOAT           shift and go to state 17
-    DOUBLE          shift and go to state 18
-    BOOLEAN         shift and go to state 19
-    STRING          shift and go to state 20
-    ID              shift and go to state 13
-
-    expression                     shift and go to state 111
-
-state 99
-
-    (36) print -> PRINT LPAREN argument_list RPAREN .
-
-    VAR             reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    VAL             reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    LPAREN          reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    NUMBER          reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    FLOAT           reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    DOUBLE          reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    BOOLEAN         reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    STRING          reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    ID              reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    PRINTLN         reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    PRINT           reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    READLINE        reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    REPEAT          reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    IF              reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    WHEN            reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    WHILE           reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    FOR             reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    LISTOF          reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    MAPOF           reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    SETOF           reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    $end            reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    RBRACE          reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-    ELSE            reduce using rule 36 (print -> PRINT LPAREN argument_list RPAREN .)
-
-
-state 100
-
     (42) repeat -> REPEAT LPAREN expression RPAREN . LBRACE statement_list RBRACE
 
-    LBRACE          shift and go to state 112
+    LBRACE          shift and go to state 110
 
 
-state 101
+state 99
 
     (43) condition -> IF expression LBRACE statement_list . RBRACE ELSE LBRACE statement_list RBRACE
     (44) condition -> IF expression LBRACE statement_list . RBRACE
@@ -3896,8 +3858,8 @@ state 101
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -3911,7 +3873,7 @@ state 101
     (56) data_structure -> . MAPOF LPAREN map_argument_list RPAREN
     (57) data_structure -> . SETOF LPAREN argument_list RPAREN
 
-    RBRACE          shift and go to state 113
+    RBRACE          shift and go to state 111
     VAR             shift and go to state 12
     VAL             shift and go to state 14
     LPAREN          shift and go to state 15
@@ -3944,21 +3906,21 @@ state 101
     range                          shift and go to state 10
     data_structure                 shift and go to state 11
 
-state 102
+state 100
 
     (48) condition -> WHEN LPAREN expression RPAREN . LBRACE when_cases RBRACE
 
-    LBRACE          shift and go to state 114
+    LBRACE          shift and go to state 112
 
 
-state 103
+state 101
 
     (45) loop -> WHILE LPAREN expression RPAREN . LBRACE statement_list RBRACE
 
-    LBRACE          shift and go to state 115
+    LBRACE          shift and go to state 113
 
 
-state 104
+state 102
 
     (46) loop -> FOR LPAREN ID IN . data_structure RPAREN LBRACE statement_list RBRACE
     (47) loop -> FOR LPAREN ID IN . range RPAREN LBRACE statement_list RBRACE
@@ -3970,12 +3932,12 @@ state 104
     LISTOF          shift and go to state 29
     MAPOF           shift and go to state 30
     SETOF           shift and go to state 31
-    NUMBER          shift and go to state 118
+    NUMBER          shift and go to state 116
 
-    data_structure                 shift and go to state 116
-    range                          shift and go to state 117
+    data_structure                 shift and go to state 114
+    range                          shift and go to state 115
 
-state 105
+state 103
 
     (55) data_structure -> LISTOF LPAREN argument_list RPAREN .
 
@@ -4004,6 +3966,74 @@ state 105
     RPAREN          reduce using rule 55 (data_structure -> LISTOF LPAREN argument_list RPAREN .)
     ELSE            reduce using rule 55 (data_structure -> LISTOF LPAREN argument_list RPAREN .)
 
+
+state 104
+
+    (39) argument_list -> argument_list COMMA . expression
+    (14) expression -> . expression PLUS expression
+    (15) expression -> . expression MINUS expression
+    (16) expression -> . expression TIMES expression
+    (17) expression -> . expression DIVIDE expression
+    (18) expression -> . expression MOD expression
+    (19) expression -> . expression EQEQ expression
+    (20) expression -> . expression NOTEQ expression
+    (21) expression -> . expression LT expression
+    (22) expression -> . expression LTEQ expression
+    (23) expression -> . expression GT expression
+    (24) expression -> . expression GTEQ expression
+    (25) expression -> . expression AND expression
+    (26) expression -> . expression OR expression
+    (27) expression -> . LPAREN expression RPAREN
+    (28) expression -> . NUMBER
+    (29) expression -> . FLOAT
+    (30) expression -> . DOUBLE
+    (31) expression -> . BOOLEAN
+    (32) expression -> . STRING
+    (33) expression -> . ID
+
+    LPAREN          shift and go to state 15
+    NUMBER          shift and go to state 49
+    FLOAT           shift and go to state 17
+    DOUBLE          shift and go to state 18
+    BOOLEAN         shift and go to state 19
+    STRING          shift and go to state 20
+    ID              shift and go to state 13
+
+    expression                     shift and go to state 117
+
+state 105
+
+    (38) argument_list -> expression COMMA . expression
+    (14) expression -> . expression PLUS expression
+    (15) expression -> . expression MINUS expression
+    (16) expression -> . expression TIMES expression
+    (17) expression -> . expression DIVIDE expression
+    (18) expression -> . expression MOD expression
+    (19) expression -> . expression EQEQ expression
+    (20) expression -> . expression NOTEQ expression
+    (21) expression -> . expression LT expression
+    (22) expression -> . expression LTEQ expression
+    (23) expression -> . expression GT expression
+    (24) expression -> . expression GTEQ expression
+    (25) expression -> . expression AND expression
+    (26) expression -> . expression OR expression
+    (27) expression -> . LPAREN expression RPAREN
+    (28) expression -> . NUMBER
+    (29) expression -> . FLOAT
+    (30) expression -> . DOUBLE
+    (31) expression -> . BOOLEAN
+    (32) expression -> . STRING
+    (33) expression -> . ID
+
+    LPAREN          shift and go to state 15
+    NUMBER          shift and go to state 49
+    FLOAT           shift and go to state 17
+    DOUBLE          shift and go to state 18
+    BOOLEAN         shift and go to state 19
+    STRING          shift and go to state 20
+    ID              shift and go to state 13
+
+    expression                     shift and go to state 118
 
 state 106
 
@@ -4137,74 +4167,6 @@ state 109
 
 state 110
 
-    (39) argument_list -> argument_list COMMA expression .
-    (14) expression -> expression . PLUS expression
-    (15) expression -> expression . MINUS expression
-    (16) expression -> expression . TIMES expression
-    (17) expression -> expression . DIVIDE expression
-    (18) expression -> expression . MOD expression
-    (19) expression -> expression . EQEQ expression
-    (20) expression -> expression . NOTEQ expression
-    (21) expression -> expression . LT expression
-    (22) expression -> expression . LTEQ expression
-    (23) expression -> expression . GT expression
-    (24) expression -> expression . GTEQ expression
-    (25) expression -> expression . AND expression
-    (26) expression -> expression . OR expression
-
-    RPAREN          reduce using rule 39 (argument_list -> argument_list COMMA expression .)
-    COMMA           reduce using rule 39 (argument_list -> argument_list COMMA expression .)
-    PLUS            shift and go to state 33
-    MINUS           shift and go to state 34
-    TIMES           shift and go to state 35
-    DIVIDE          shift and go to state 36
-    MOD             shift and go to state 37
-    EQEQ            shift and go to state 38
-    NOTEQ           shift and go to state 39
-    LT              shift and go to state 40
-    LTEQ            shift and go to state 41
-    GT              shift and go to state 42
-    GTEQ            shift and go to state 43
-    AND             shift and go to state 44
-    OR              shift and go to state 45
-
-
-state 111
-
-    (38) argument_list -> expression COMMA expression .
-    (14) expression -> expression . PLUS expression
-    (15) expression -> expression . MINUS expression
-    (16) expression -> expression . TIMES expression
-    (17) expression -> expression . DIVIDE expression
-    (18) expression -> expression . MOD expression
-    (19) expression -> expression . EQEQ expression
-    (20) expression -> expression . NOTEQ expression
-    (21) expression -> expression . LT expression
-    (22) expression -> expression . LTEQ expression
-    (23) expression -> expression . GT expression
-    (24) expression -> expression . GTEQ expression
-    (25) expression -> expression . AND expression
-    (26) expression -> expression . OR expression
-
-    RPAREN          reduce using rule 38 (argument_list -> expression COMMA expression .)
-    COMMA           reduce using rule 38 (argument_list -> expression COMMA expression .)
-    PLUS            shift and go to state 33
-    MINUS           shift and go to state 34
-    TIMES           shift and go to state 35
-    DIVIDE          shift and go to state 36
-    MOD             shift and go to state 37
-    EQEQ            shift and go to state 38
-    NOTEQ           shift and go to state 39
-    LT              shift and go to state 40
-    LTEQ            shift and go to state 41
-    GT              shift and go to state 42
-    GTEQ            shift and go to state 43
-    AND             shift and go to state 44
-    OR              shift and go to state 45
-
-
-state 112
-
     (42) repeat -> REPEAT LPAREN expression RPAREN LBRACE . statement_list RBRACE
     (1) statement_list -> . statement
     (2) statement_list -> . statement_list statement
@@ -4239,8 +4201,8 @@ state 112
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -4287,7 +4249,7 @@ state 112
     range                          shift and go to state 10
     data_structure                 shift and go to state 11
 
-state 113
+state 111
 
     (43) condition -> IF expression LBRACE statement_list RBRACE . ELSE LBRACE statement_list RBRACE
     (44) condition -> IF expression LBRACE statement_list RBRACE .
@@ -4320,7 +4282,7 @@ state 113
   ! ELSE            [ reduce using rule 44 (condition -> IF expression LBRACE statement_list RBRACE .) ]
 
 
-state 114
+state 112
 
     (48) condition -> WHEN LPAREN expression RPAREN LBRACE . when_cases RBRACE
     (49) when_cases -> . when_case
@@ -4364,7 +4326,7 @@ state 114
     when_case                      shift and go to state 125
     expression_list                shift and go to state 126
 
-state 115
+state 113
 
     (45) loop -> WHILE LPAREN expression RPAREN LBRACE . statement_list RBRACE
     (1) statement_list -> . statement
@@ -4400,8 +4362,8 @@ state 115
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -4448,25 +4410,93 @@ state 115
     range                          shift and go to state 10
     data_structure                 shift and go to state 11
 
-state 116
+state 114
 
     (46) loop -> FOR LPAREN ID IN data_structure . RPAREN LBRACE statement_list RBRACE
 
     RPAREN          shift and go to state 129
 
 
-state 117
+state 115
 
     (47) loop -> FOR LPAREN ID IN range . RPAREN LBRACE statement_list RBRACE
 
     RPAREN          shift and go to state 130
 
 
-state 118
+state 116
 
     (34) range -> NUMBER . RANGE NUMBER
 
     RANGE           shift and go to state 50
+
+
+state 117
+
+    (39) argument_list -> argument_list COMMA expression .
+    (14) expression -> expression . PLUS expression
+    (15) expression -> expression . MINUS expression
+    (16) expression -> expression . TIMES expression
+    (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . MOD expression
+    (19) expression -> expression . EQEQ expression
+    (20) expression -> expression . NOTEQ expression
+    (21) expression -> expression . LT expression
+    (22) expression -> expression . LTEQ expression
+    (23) expression -> expression . GT expression
+    (24) expression -> expression . GTEQ expression
+    (25) expression -> expression . AND expression
+    (26) expression -> expression . OR expression
+
+    RPAREN          reduce using rule 39 (argument_list -> argument_list COMMA expression .)
+    COMMA           reduce using rule 39 (argument_list -> argument_list COMMA expression .)
+    PLUS            shift and go to state 33
+    MINUS           shift and go to state 34
+    TIMES           shift and go to state 35
+    DIVIDE          shift and go to state 36
+    MOD             shift and go to state 37
+    EQEQ            shift and go to state 38
+    NOTEQ           shift and go to state 39
+    LT              shift and go to state 40
+    LTEQ            shift and go to state 41
+    GT              shift and go to state 42
+    GTEQ            shift and go to state 43
+    AND             shift and go to state 44
+    OR              shift and go to state 45
+
+
+state 118
+
+    (38) argument_list -> expression COMMA expression .
+    (14) expression -> expression . PLUS expression
+    (15) expression -> expression . MINUS expression
+    (16) expression -> expression . TIMES expression
+    (17) expression -> expression . DIVIDE expression
+    (18) expression -> expression . MOD expression
+    (19) expression -> expression . EQEQ expression
+    (20) expression -> expression . NOTEQ expression
+    (21) expression -> expression . LT expression
+    (22) expression -> expression . LTEQ expression
+    (23) expression -> expression . GT expression
+    (24) expression -> expression . GTEQ expression
+    (25) expression -> expression . AND expression
+    (26) expression -> expression . OR expression
+
+    RPAREN          reduce using rule 38 (argument_list -> expression COMMA expression .)
+    COMMA           reduce using rule 38 (argument_list -> expression COMMA expression .)
+    PLUS            shift and go to state 33
+    MINUS           shift and go to state 34
+    TIMES           shift and go to state 35
+    DIVIDE          shift and go to state 36
+    MOD             shift and go to state 37
+    EQEQ            shift and go to state 38
+    NOTEQ           shift and go to state 39
+    LT              shift and go to state 40
+    LTEQ            shift and go to state 41
+    GT              shift and go to state 42
+    GTEQ            shift and go to state 43
+    AND             shift and go to state 44
+    OR              shift and go to state 45
 
 
 state 119
@@ -4546,8 +4576,8 @@ state 121
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -4744,8 +4774,8 @@ state 128
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -4871,8 +4901,8 @@ state 132
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -4999,8 +5029,8 @@ state 135
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -5117,8 +5147,8 @@ state 137
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -5230,8 +5260,8 @@ state 139
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -5314,8 +5344,8 @@ state 140
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -5397,8 +5427,8 @@ state 141
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -5480,8 +5510,8 @@ state 142
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -5613,8 +5643,8 @@ state 144
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -5712,8 +5742,8 @@ state 145
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -5795,8 +5825,8 @@ state 146
     (31) expression -> . BOOLEAN
     (32) expression -> . STRING
     (33) expression -> . ID
-    (35) print -> . PRINTLN LPAREN argument_list RPAREN
-    (36) print -> . PRINT LPAREN argument_list RPAREN
+    (35) print -> . PRINTLN LPAREN expression RPAREN
+    (36) print -> . PRINT LPAREN expression RPAREN
     (41) input -> . READLINE LPAREN RPAREN
     (42) repeat -> . REPEAT LPAREN expression RPAREN LBRACE statement_list RBRACE
     (43) condition -> . IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
@@ -5932,8 +5962,8 @@ state 149
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
-WARNING: shift/reduce conflict for COMMA in state 80 resolved as shift
-WARNING: shift/reduce conflict for ELSE in state 113 resolved as shift
+WARNING: shift/reduce conflict for COMMA in state 88 resolved as shift
+WARNING: shift/reduce conflict for ELSE in state 111 resolved as shift
 WARNING: shift/reduce conflict for LPAREN in state 142 resolved as shift
 WARNING: shift/reduce conflict for NUMBER in state 142 resolved as shift
 WARNING: shift/reduce conflict for FLOAT in state 142 resolved as shift
