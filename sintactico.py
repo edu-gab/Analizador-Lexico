@@ -18,8 +18,18 @@ def p_statement_list(p):
     '''statement_list : statement
                       | statement_list statement'''
     
+    #Aporte de Eduardo Sanchez
     if len(p) == 2:
-        p[0] = p[1]
+        p[0] = [p[1]]  
+    elif len(p) == 3:
+        if p[1] is None:
+            p[0] = [p[2]]  
+        elif isinstance(p[1], list):
+            p[0] = p[1] + [p[2]]  
+        else:
+            p[0] = [p[1], p[2]]  
+    else:
+        p[0] = []  
                       
 # Aporte de Ronny, Eduardo y Robespierre
 def p_statement(p):
@@ -32,7 +42,8 @@ def p_statement(p):
                  | loop
                  | range
                  | data_structure'''
-    
+
+    #Aporte de Eduardo Sanchez
     p[0] = p[1]
         
     
@@ -134,7 +145,8 @@ def p_range(p):
 def p_print(p):
     '''print : PRINTLN LPAREN argument_list RPAREN 
              | PRINT LPAREN argument_list RPAREN'''
-    
+             
+    ##Aporte de Eduardo Sanchez
     for exp in p[3]:
         if isinstance(exp, str) and exp not in variables:
             print(f"Error semántico: La variable {exp} no ha sido inicializada")
@@ -145,7 +157,8 @@ def p_argument_list(p):
                      | expression COMMA expression
                      | argument_list COMMA expression
                      | empty'''
-    
+                     
+    ##Aporte de Eduardo Sanchez
     if len(p) == 2:
         p[0] = [p[1]]
     elif len(p) == 4:
@@ -165,6 +178,13 @@ def p_input(p):
 # Aporte de Robespierre funcion 3
 def p_repeat(p):
     '''repeat : REPEAT LPAREN NUMBER RPAREN LBRACE statement_list RBRACE'''
+    
+    #Aporte de Eduardo
+    if not isinstance(p[6], list):
+        print(f"Error semántico: La expresión {p[6]} esta mal")
+    else:
+        pass
+        
     
 # Aporte de Ronny
 def p_condition(p):
