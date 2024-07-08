@@ -188,27 +188,92 @@ def p_repeat(p):
     
 # Aporte de Ronny
 def p_condition(p):
-    '''condition : IF expression LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
-                 | IF expression LBRACE statement_list RBRACE'''
+    '''condition : IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
+                 | IF LPAREN expression RPAREN LBRACE statement_list RBRACE'''
+    
+    print(p[3])
+    # Verificación semántica
+    if not isinstance(p[3], str):
+        print(f"Error semántico: La expresión {p[3]} no es booleana")
+        return
+    
+    print(eval(p[3]))
+    if eval(p[3]):
+
+        if not isinstance(p[6], list):
+            print(f"Error semántico: La lista de declaraciones {p[6]} no es válida")
+            return
+        
+
+    if not isinstance(p[6], list):
+        print(f"Error semántico: La lista de declaraciones {p[6]} no es válida")
+        return
+
+    if len(p) >= 12 and not isinstance(p[10], list):
+        print(f"Error semántico: La lista de declaraciones {p[10]} no es válida")
+    
+
 # Aporte Eduardo
 def p_loop_while(p):
     '''loop : WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE'''
+    # Verificación semántica
+    if not isinstance(p[3], bool):
+        print(f"Error semántico: La expresión {p[3]} no es booleana")
+        return
     
+    if not isinstance(p[6], list):
+        print(f"Error semántico: La lista de declaraciones {p[6]} no es válida")
+        return
+
 # Aporte Robespierre
 def p_loop_for(p):
     '''loop : FOR LPAREN ID IN data_structure RPAREN LBRACE statement_list RBRACE
             | FOR LPAREN ID IN range RPAREN LBRACE statement_list RBRACE'''
+    
+    # Verificación semántica
+    if not isinstance(p[4], (list, range)):
+        print(f"Error semántico: La estructura de datos {p[4]} no es válida")
+    elif not isinstance(p[7], list):
+        print(f"Error semántico: La lista de declaraciones {p[7]} no es válida")
+    else:
+        pass
+
 #Aporte Robespierre
 def p_condition_when(p):
     '''condition : WHEN LPAREN expression RPAREN LBRACE when_cases RBRACE'''
+    
+    # Verificación semántica
+    if not isinstance(p[2], bool):
+        print(f"Error semántico: La expresión {p[2]} no es booleana")
+    elif not isinstance(p[5], list):
+        print(f"Error semántico: Los casos 'when' {p[5]} no son válidos")
+    else:
+        pass
 
 def p_when_cases(p):
     '''when_cases : when_case
                   | when_cases when_case'''
+    
+    # Asumiendo que when_cases es una lista de casos
+    if not isinstance(p[1], list):
+        print(f"Error semántico: Los casos 'when' {p[1]} no son válidos")
+    elif len(p) == 3 and not isinstance(p[2], list):
+        print(f"Error semántico: Los casos 'when' {p[2]} no son válidos")
+    else:
+        pass
 
 def p_when_case(p):
     '''when_case : expression_list ARROW statement_list
                  | ELSE ARROW statement_list'''
+    
+    # Verificación semántica
+    if not isinstance(p[1], list):
+        print(f"Error semántico: La lista de expresiones {p[1]} no es válida")
+    elif not isinstance(p[3], list):
+        print(f"Error semántico: La declaración {p[3]} no es válida")
+    else:
+        pass
+
 
 def p_expression_list(p):
     '''expression_list : expression
