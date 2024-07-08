@@ -1,9 +1,7 @@
-#!/usr/bin/env kotlin
-
 fun main() {
     // Declaración de variables y operadores aritméticos
     var x = 10.8
-    val y = 20.8f
+    val y = 20.8
     var result = 0
 
     result = x + y

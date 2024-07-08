@@ -54,22 +54,24 @@ def p_assignment(p):
                   
     #Aporte de Eduardo Sanchez
     variables[p[2]] = p[4]
-    
+def p_reasignement(p):
+    '''assignment : ID ASSIGN expression'''
 # Aporte de Robespierre
-def p_expression_binop(p):
-    '''expression : expression PLUS expression
-                  | expression MINUS expression
-                  | expression TIMES expression
-                  | expression DIVIDE expression
-                  | expression MOD expression
-                  | expression EQEQ expression
-                  | expression NOTEQ expression
+def p_expression_binopb(p):
+    '''expression : expression NOTEQ expression
                   | expression LT expression
                   | expression LTEQ expression
                   | expression GT expression
                   | expression GTEQ expression
                   | expression AND expression
                   | expression OR expression'''
+
+def p_expression_binopa(p):
+    '''expression : expression PLUS expression
+                  | expression MINUS expression
+                  | expression TIMES expression
+                  | expression DIVIDE expression
+                  | expression MOD expression'''
     
     #Aporte de Eduardo Sanchez
     if not isinstance(p[1], str) or p[1] in variables:
@@ -253,8 +255,8 @@ while True:
   result = sin_analyzer.parse(s)
   if result != None:
     print(result)
-
-
-parser = yacc.yacc()
-
-# Ejemplo de uso
+#
+#
+# parser = yacc.yacc()
+#
+# # Ejemplo de uso

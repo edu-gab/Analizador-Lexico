@@ -158,6 +158,18 @@ def t_error(t):
 
 lexer = lex.lex()
 
+def generar_log_lexico(data):
+    lexer.input(data)
+    lista = []
+    # Tokenize
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break      # No more input
+        lista.append(tok)
+
+
+
 '''
 Termina aporte Eduardo Sanchez
 '''
