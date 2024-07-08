@@ -39,8 +39,8 @@ def p_statement_list(p):
         p[0] = []
 
 # Aporte de Ronny
-def p_fun(p):
-    '''fun : FUN ID LPAREN argument_list RPAREN LBRACE statement_list RBRACE'''
+def p_function(p):
+    '''function : FUN ID LPAREN argument_list RPAREN LBRACE statement_list RBRACE'''
 
     # Verificación semántica
     if not isinstance(p[4], list):
@@ -51,7 +51,7 @@ def p_fun(p):
         print(f"Error semántico: La lista de declaraciones {p[7]} no es válida")
         return
 
-    p[0] = ('fun', p[2], p[4], p[7])
+    p[0] = ('function', p[2], p[4], p[7])
 
 
 # Aporte de Ronny, Eduardo y Robespierre
@@ -198,6 +198,7 @@ def p_range(p):
     '''range : NUMBER RANGE NUMBER'''
     # Aporte de Robespierre
     p[0] = (p[1], p[3])
+
 def p_expression_range(p):
     '''expression : range'''
     p[0] = p[1]
@@ -307,24 +308,32 @@ def p_loop_for(p):
     # Verificación semántica
     if isinstance(p[3], str) and p[3] in variables:
         print(f"Error semántico: La variable {p[3]} ya ha sido inicializada")
-        return  
+        return 
+    
+    #initializating the variable
+    variables[p[3]] = None 
 
     # Aporte de Robespierre   
     if isinstance(p[5], str):
         if p[5] not in variables:
-            print(f"Error semántico: La variable {p[4]} no ha sido inicializada")
+            print(f"Error semántico: La variable {p[5]} no ha sido inicializada")
             return
         data_structure = variables[p[5]]
-    elif isinstance(p[5], (list, dict, set, tuple, range)):
-        data_structure = p[5]
+    else :
+        if not isinstance(p[5], (list, dict, set, tuple, range)):
+            print(f"Error semántico: La estructura de datos {p[5]} no es válida")
+            return
+        else:
+            data_structure = p[5]
 
-    if not isinstance(data_structure, (list, dict, set, tuple, range)):
-        print(f"Error semántico: La estructura de datos {data_structure} no es válida")
-        return
+    # Assigning the data structure to the variable
+    variables[p[3]] = data_structure
 
     if not isinstance(p[8], list):
         print(f"Error semántico: La lista de declaraciones {p[8]} no es válida")
         return
+    
+    p[0] = ('for', p[3], data_structure, p[8])
 
 #Aporte Robespierre
 def p_condition_when(p):

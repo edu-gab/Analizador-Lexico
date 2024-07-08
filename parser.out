@@ -92,7 +92,7 @@ Grammar
 Rule 0     S' -> statement_list
 Rule 1     statement_list -> statement
 Rule 2     statement_list -> statement_list statement
-Rule 3     fun -> FUN ID LPAREN argument_list RPAREN LBRACE statement_list RBRACE
+Rule 3     function -> FUN ID LPAREN argument_list RPAREN LBRACE statement_list RBRACE
 Rule 4     statement -> assignment
 Rule 5     statement -> expression
 Rule 6     statement -> print
@@ -294,7 +294,7 @@ data_structure       : 58
 empty                : 40
 expression           : 5 11 12 13 14 14 15 15 16 16 17 17 18 18 19 19 20 20 21 21 22 22 23 23 24 24 25 25 26 37 38 38 39 43 44 45 46 48 53 54 61 61
 expression_list      : 51 54
-fun                  : 
+function             : 
 input                : 7
 loop                 : 10
 map_argument_list    : 56 60
