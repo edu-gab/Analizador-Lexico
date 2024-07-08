@@ -63,8 +63,13 @@ def p_assignment(p):
 
 def p_reasignement(p):
     '''assignment : ID ASSIGN expression'''
-    variables[p[1]] = p[3]
-    p[0] = (p[1], p[3])
+    # Aporte Robespierre
+    if p[1] not in variables:
+        print(f"Error semántico: La variable {p[1]} no ha sido inicializada")
+        return
+    else:
+        variables[p[1]] = p[3]
+        p[0] = (p[1], p[3])
 
 # Aporte de Robespierre
 def p_expression_binop_boolean(p):
@@ -76,6 +81,15 @@ def p_expression_binop_boolean(p):
                   | expression AND expression
                   | expression OR expression'''
 
+    # Aporte Robespierre
+    if isinstance(p[1], str) and p[1] not in variables:
+        print(f"Error semántico: La variable {p[1]} no ha sido inicializada")
+        return 
+    
+    if isinstance(p[3], str) and p[3] not in variables:
+        print(f"Error semántico: La variable {p[3]} no ha sido inicializada")
+        return
+    
     if p[2] == '!=':
         p[0] = p[1] != p[3]
     elif p[2] == '<':
@@ -91,7 +105,7 @@ def p_expression_binop_boolean(p):
     elif p[2] == '||':
         p[0] = p[1] or p[3]
 
-
+    
 def p_expression_binop_arimetic(p):
     '''expression : expression PLUS expression
                   | expression MINUS expression
@@ -197,6 +211,7 @@ def p_print(p):
     for exp in p[3]:
         if isinstance(exp, str) and exp not in variables:
             print(f"Error semántico: La variable {exp} no ha sido inicializada")
+    p[0] = ('print', p[3])
 
 # Aporte de Eduardo
 def p_argument_list(p):
@@ -228,9 +243,10 @@ def p_repeat(p):
 
     #Aporte de Eduardo
     if not isinstance(p[6], list):
-        print(f"Error semántico: La expresión {p[6]} esta mal")
+        print(f"Error semántico: La lista de declaraciones {p[6]} no es válida")
     else:
-        pass
+        #Aporte Robespierre
+        p[0] = ('repeat', p[3], p[6])
 
 
 # Aporte de Ronny
@@ -265,19 +281,26 @@ def p_loop_while(p):
 
 # Aporte Robespierre
 def p_loop_for(p):
-    '''loop : FOR LPAREN ID IN data_structure RPAREN LBRACE statement_list RBRACE
+    '''loop : FOR LPAREN ID IN expression RPAREN LBRACE statement_list RBRACE
             | FOR LPAREN ID IN range RPAREN LBRACE statement_list RBRACE'''
 
-    # Verificación semántica
-    if isinstance(p[5], (list, range)):
-        pass
-    else:
-        print(f"Error semántico: La estructura de datos {p[5]} no es válida")
+    # Aporte de Robespierre
+    if isinstance(p[5], str) and p[5] not in variables:
+        print(f"Error semántico: La variable {p[4]} no ha sido inicializada")
         return
-    
+    elif isinstance(p[5], str):
+        data_structure = variables[p[5]]
+    else:
+        data_structure = p[5]
+
+    if not isinstance(data_structure, (list, dict, set, tuple, range)):
+        print(f"Error semántico: La estructura de datos {data_structure} no es válida")
+        return
+
     if not isinstance(p[8], list):
         print(f"Error semántico: La lista de declaraciones {p[8]} no es válida")
         return
+
 
 #Aporte Robespierre
 def p_condition_when(p):
@@ -319,6 +342,8 @@ def p_when_case(p):
     if not isinstance(p[3], list):
         print(f"Error semántico: La declaración {p[3]} no es válida")
         return
+    
+    p[0] = (p[1], p[3])
 
 def p_expression_list(p):
     '''expression_list : expression
@@ -374,7 +399,7 @@ def p_error(p):
         print("Error de sintaxis en token:", p)
     else:
         print("Syntax error at EOF")
-        
+
 parser = yacc.yacc()
 
 # Ejemplo de uso
