@@ -46,8 +46,7 @@ def p_statement(p):
                  | input
                  | repeat
                  | condition
-                 | loop
-                 | range'''
+                 | loop'''
 
     #Aporte de Eduardo Sanchez
     p[0] = p[1]
@@ -181,6 +180,11 @@ def p_expression_id(p):
 # Aporte dr Robespierre
 def p_range(p):
     '''range : NUMBER RANGE NUMBER'''
+    # Aporte de Robespierre
+    p[0] = (p[1], p[3])
+def p_expression_range(p):
+    '''expression : range'''
+    p[0] = p[1]
 
     #Aporte de Eduardo Sanchez
     if isinstance(p[1], str) and p[1] in variables:
@@ -281,8 +285,7 @@ def p_loop_while(p):
 
 # Aporte Robespierre
 def p_loop_for(p):
-    '''loop : FOR LPAREN ID IN expression RPAREN LBRACE statement_list RBRACE
-            | FOR LPAREN ID IN range RPAREN LBRACE statement_list RBRACE'''
+    '''loop : FOR LPAREN ID IN expression RPAREN LBRACE statement_list RBRACE'''
 
     # Aporte de Robespierre
     if isinstance(p[5], str) and p[5] not in variables:
@@ -300,7 +303,6 @@ def p_loop_for(p):
     if not isinstance(p[8], list):
         print(f"Error semántico: La lista de declaraciones {p[8]} no es válida")
         return
-
 
 #Aporte Robespierre
 def p_condition_when(p):
@@ -371,7 +373,8 @@ def p_data_structure(p):
         p[0] = dict(p[3])
 
 def p_expression_data_structure(p):
-    '''expression : data_structure'''
+    '''expression : data_structure
+                  | range'''
     p[0] = p[1]
 
 # Aporte de Robespierre
