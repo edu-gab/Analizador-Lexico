@@ -1,4 +1,6 @@
 import datetime
+from sintactico import parser
+from lexico import lexer
 
 # Comienza aporte Robespierre Triviño
 def generar_nombre_log(nombre):
@@ -21,5 +23,8 @@ estudiante = "robtrivi"
 
 
 data = leer_algoritmo(estudiante + ".txt")
-file = open("logs/" + generar_nombre_log(estudiante), "w")
+# file = open("logs/" + generar_nombre_log(estudiante), "w")
 # Termina aporte Robespierre Triviño
+r = parser.parse(data)
+print(r)
+
