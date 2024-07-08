@@ -54,10 +54,14 @@ def p_assignment(p):
                   
     #Aporte de Eduardo Sanchez
     variables[p[2]] = p[4]
+
 def p_reasignement(p):
     '''assignment : ID ASSIGN expression'''
+    variables[p[1]] = p[3]
+    p[0] = (p[1], p[3])
+
 # Aporte de Robespierre
-def p_expression_binopb(p):
+def p_expression_binop_boolean(p):
     '''expression : expression NOTEQ expression
                   | expression LT expression
                   | expression LTEQ expression
@@ -65,14 +69,36 @@ def p_expression_binopb(p):
                   | expression GTEQ expression
                   | expression AND expression
                   | expression OR expression'''
-
-def p_expression_binopa(p):
+    if p[2] == '!=':
+        p[0] = p[1] != p[3]
+    elif p[2] == '<':
+        p[0] = p[1] < p[3]
+    elif p[2] == '<=':
+        p[0] = p[1] <= p[3]
+    elif p[2] == '>':
+        p[0] = p[1] > p[3]
+    elif p[2] == '>=':
+        p[0] = p[1] >= p[3]
+    elif p[2] == '&&':
+        p[0] = p[1] and p[3]
+    elif p[2] == '||':
+        p[0] = p[1] or p[3]
+def p_expression_binop_arimetic(p):
     '''expression : expression PLUS expression
                   | expression MINUS expression
                   | expression TIMES expression
                   | expression DIVIDE expression
                   | expression MOD expression'''
-    
+    if p[2] == '+':
+        p[0] = p[1] + p[3]
+    elif p[2] == '-':
+        p[0] = p[1] - p[3]
+    elif p[2] == '*':
+        p[0] = p[1] * p[3]
+    elif p[2] == '/':
+        p[0] = p[1] / p[3]
+    elif p[2] == '%':
+        p[0] = p[1] % p[3]
     #Aporte de Eduardo Sanchez
     if not isinstance(p[1], str) or p[1] in variables:
         pass
