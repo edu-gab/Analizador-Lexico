@@ -24,20 +24,20 @@ precedence = (
 def p_statement_list(p):
     '''statement_list : statement
                       | statement_list statement'''
-    
+
     #Aporte de Eduardo Sanchez
     if len(p) == 2:
-        p[0] = [p[1]]  
+        p[0] = [p[1]]
     elif len(p) == 3:
         if p[1] is None:
-            p[0] = [p[2]]  
+            p[0] = [p[2]]
         elif isinstance(p[1], list):
-            p[0] = p[1] + [p[2]]  
+            p[0] = p[1] + [p[2]]
         else:
-            p[0] = [p[1], p[2]]  
+            p[0] = [p[1], p[2]]
     else:
-        p[0] = []  
-                      
+        p[0] = []
+
 # Aporte de Ronny, Eduardo y Robespierre
 def p_statement(p):
     '''statement : assignment
@@ -47,18 +47,17 @@ def p_statement(p):
                  | repeat
                  | condition
                  | loop
-                 | range
-                 | data_structure'''
+                 | range'''
 
     #Aporte de Eduardo Sanchez
     p[0] = p[1]
-        
-    
+
+
 # Aporte de Eduardo
 def p_assignment(p):
     '''assignment : VAR ID ASSIGN expression
                   | VAL ID ASSIGN expression'''
-                  
+
     #Aporte de Eduardo Sanchez
     variables[p[2]] = p[4]
 
@@ -106,98 +105,106 @@ def p_expression_binop_arimetic(p):
     else:
         print(f"Error semantico: La variable {p[1]} no ha sido inicializada")
         return
-        
+
     if not isinstance(p[3], str) or p[3] in variables:
         pass
     else:
         print(f"Error semantico: La variable {p[3]} no ha sido inicializada")
         return
-    
-    if p[2] == '+':
-        p[0] = p[1] + p[3]
-    elif p[2] == '-':
-        p[0] = p[1] - p[3]
-    elif p[2] == '*':
-        p[0] = p[1] * p[3]
-    elif p[2] == '/':
-        p[0] = p[1] / p[3]
-    elif p[2] == '%':
-        p[0] = p[1] % p[3]
-    
+
 # Aporte de Eduardo
 def p_expression_group(p):
     '''expression : LPAREN expression RPAREN'''
-    
+
     #Aporte de Eduardo Sanchez
     if not isinstance(p[1], str) and p[1] in variables:
         p[0] = variables[p[1]]
     else:
         p[0] = p[1]
-        
+
 # Aporte de Robespierre
 def p_expression_number(p):
     '''expression : NUMBER
                   | FLOAT
                   | DOUBLE'''
-    
+
     #Aporte de Eduardo Sanchez
     if not isinstance(p[1], str) and p[1] in variables:
         p[0] = variables[p[1]]
     else:
         p[0] = p[1]
-    
+
 # Aporte de Ronny
 def p_expression_boolean(p):
     '''expression : BOOLEAN'''
-    
+
     #Aporte de Eduardo Sanchez
     if not isinstance(p[1], str) and p[1] in variables:
         p[0] = variables[p[1]]
     else:
         p[0] = p[1]
-    
+
 # Aporte de Robespierre
 def p_expression_string(p):
     '''expression : STRING'''
-    
+
     #Aporte de Eduardo Sanchez
     if not isinstance(p[1], str) and p[1] in variables:
         p[0] = variables[p[1]]
     else:
         p[0] = p[1]
-    
+
 # Aporte de Eduardo
 def p_expression_id(p):
     '''expression : ID'''
-    
+
     #Aporte de Eduardo Sanchez
     if not isinstance(p[1], str) and p[1] in variables:
         p[0] = variables[p[1]]
     else:
         p[0] = p[1]
-    
+
 # Aporte dr Robespierre
 def p_range(p):
     '''range : NUMBER RANGE NUMBER'''
+
+    #Aporte de Eduardo Sanchez
+    if isinstance(p[1], str) and p[1] in variables:
+        pass
+    elif isinstance(p[1], int):
+        pass
+    else:
+        print(f"Error semantico: La variable {p[1]} no ha sido inicializada")
+        return
     
+    if isinstance(p[3], str) and p[3] in variables:
+        pass
+    elif isinstance(p[3], int):
+        pass
+    else:
+        print(f"Error semantico: La variable {p[3]} no ha sido inicializada")
+        return
+    
+    p[0] = range(p[1], p[3])
+
 # Aporte de Robespierre funcion 1
 # Aqui va argument_list, lo cambie para probar, habria que hacer el cambio en argument list
 def p_print(p):
-    '''print : PRINTLN LPAREN argument_list RPAREN 
+    '''print : PRINTLN LPAREN argument_list RPAREN
              | PRINT LPAREN argument_list RPAREN'''
-             
+
     ##Aporte de Eduardo Sanchez
     for exp in p[3]:
         if isinstance(exp, str) and exp not in variables:
             print(f"Error semántico: La variable {exp} no ha sido inicializada")
-    
+
 # Aporte de Eduardo
 def p_argument_list(p):
     '''argument_list : expression
                      | expression COMMA expression
                      | argument_list COMMA expression
                      | empty'''
-                     
+
     ##Aporte de Eduardo Sanchez
     if len(p) == 2:
         p[0] = [p[1]]
@@ -208,30 +215,29 @@ def p_argument_list(p):
             p[0] = [p[1], p[3]]  # Si p[1] no es una lista, creamos una nueva lista
     else:
         p[0] = []
-    
+
 # Aporte de Eduardo funcion 2
 def p_input(p):
     '''input : READLINE LPAREN RPAREN'''
     print("Ingrese texto: ")
     p[0] = input()
-    
+
 # Aporte de Robespierre funcion 3
 def p_repeat(p):
     '''repeat : REPEAT LPAREN NUMBER RPAREN LBRACE statement_list RBRACE'''
-    
+
     #Aporte de Eduardo
     if not isinstance(p[6], list):
         print(f"Error semántico: La expresión {p[6]} esta mal")
     else:
         pass
-        
-    
+
+
 # Aporte de Ronny
 def p_condition(p):
     '''condition : IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
                  | IF LPAREN expression RPAREN LBRACE statement_list RBRACE'''
-    
-    # Verificación semántica
+
     if not isinstance(p[3], bool):
         print(f"Error semántico: La expresión {p[3]} no es booleana")
         return
@@ -242,7 +248,7 @@ def p_condition(p):
 
     if len(p) >= 12 and not isinstance(p[10], list):
         print(f"Error semántico: La lista de declaraciones {p[10]} no es válida")
-    
+
 
 # Aporte Eduardo
 def p_loop_while(p):
@@ -252,7 +258,7 @@ def p_loop_while(p):
     if not isinstance(p[3], bool):
         print(f"Error semántico: La expresión {p[3]} no es booleana")
         return
-    
+
     if not isinstance(p[6], list):
         print(f"Error semántico: La lista de declaraciones {p[6]} no es válida")
         return
@@ -261,7 +267,7 @@ def p_loop_while(p):
 def p_loop_for(p):
     '''loop : FOR LPAREN ID IN data_structure RPAREN LBRACE statement_list RBRACE
             | FOR LPAREN ID IN range RPAREN LBRACE statement_list RBRACE'''
-    
+
     # Verificación semántica
     if isinstance(p[5], (list, range)):
         pass
@@ -276,7 +282,7 @@ def p_loop_for(p):
 #Aporte Robespierre
 def p_condition_when(p):
     '''condition : WHEN LPAREN expression RPAREN LBRACE when_cases RBRACE'''
-    
+
     # Verificación semántica
     if not isinstance(p[3], bool):
         print(f"Error semántico: La expresión {p[3]} no es booleana")
@@ -290,7 +296,7 @@ def p_condition_when(p):
 def p_when_cases(p):
     '''when_cases : when_case
                   | when_cases when_case'''
-    
+
     # Asumiendo que when_cases es una lista de casos
     if not isinstance(p[1], list):
         print(f"Error semántico: Los casos 'when' {p[1]} no son válidos")
@@ -304,7 +310,7 @@ def p_when_cases(p):
 def p_when_case(p):
     '''when_case : expression_list ARROW statement_list
                  | ELSE ARROW statement_list'''
-    
+
     # Verificación semántica
     if not isinstance(p[1], list):
         print(f"Error semántico: La lista de expresiones {p[1]} no es válida")
@@ -334,13 +340,28 @@ def p_data_structure(p):
     '''data_structure : LISTOF LPAREN argument_list RPAREN
                       | MAPOF LPAREN map_argument_list RPAREN
                       | SETOF LPAREN argument_list RPAREN'''
+    if p[1] == 'listOf' or p[1] == 'setOf':
+        p[0] = p[3]
+    elif p[1] == 'mapOf':
+        p[0] = dict(p[3])
+
+def p_expression_data_structure(p):
+    '''expression : data_structure'''
+    p[0] = p[1]
+
 # Aporte de Robespierre
 def p_map_argument_list(p):
     '''map_argument_list : map_element
                          | map_argument_list COMMA map_element'''
-# Aporte de Robespierre
+    if len(p) == 2:
+        p[0] = [p[1]]
+    else:
+        p[0] = p[1] + [p[3]]
+
 def p_map_element(p):
     '''map_element : expression TO expression'''
+    p[0] = (p[1], p[3])
+
 def p_type(p):
     '''type : ID'''
 
@@ -353,6 +374,7 @@ def p_error(p):
         print("Error de sintaxis en token:", p)
     else:
         print("Syntax error at EOF")
+        
 parser = yacc.yacc()
 
 # Ejemplo de uso
