@@ -1,6 +1,13 @@
 import ply.yacc as yacc
 from lexico import *
 
+def is_variable_initialized(var):
+    return var in variables
+
+def get_variable_type(var):
+    return variables[var] if var in variables else None
+
+# Definición de variables
 variables = {}
 
 # Definiciones de precedencia para manejar operadores
@@ -54,8 +61,10 @@ def p_assignment(p):
                   
     #Aporte de Eduardo Sanchez
     variables[p[2]] = p[4]
+
 def p_reasignement(p):
     '''assignment : ID ASSIGN expression'''
+
 # Aporte de Robespierre
 def p_expression_binopb(p):
     '''expression : expression NOTEQ expression
@@ -65,6 +74,49 @@ def p_expression_binopb(p):
                   | expression GTEQ expression
                   | expression AND expression
                   | expression OR expression'''
+    
+    #Aporte de Ronny García
+    if not isinstance(p[1], str) or p[1] in variables:
+        pass
+    else:
+        print(f"Error semantico: La variable {p[1]} no ha sido inicializada")
+        return
+        
+    if not isinstance(p[3], str) or p[3] in variables:
+        pass
+    else:
+        print(f"Error semantico: La variable {p[3]} no ha sido inicializada")
+        return
+    
+    left_type = get_variable_type(p[1]) if isinstance(p[1], str) else type(p[1]).__name__
+    right_type = get_variable_type(p[3]) if isinstance(p[3], str) else type(p[3]).__name__
+
+    valid_types_for_comparison = {'int', 'float'}
+    valid_types_for_boolean = {'bool'}
+
+    if p[2] in ('!=', '<', '<=', '>', '>='):
+        if left_type not in valid_types_for_comparison or right_type not in valid_types_for_comparison:
+            print(f"Error semántico: Operación {p[2]} no es válida entre tipos {left_type} y {right_type}")
+    elif p[2] in ('and', 'or'):
+        if left_type not in valid_types_for_boolean or right_type not in valid_types_for_boolean:
+            print(f"Error semántico: Operación {p[2]} no es válida entre tipos {left_type} y {right_type}")
+
+    # Asignamos el resultado de la operación
+    if p[2] == '!=':
+        p[0] = p[1] != p[3]
+    elif p[2] == '<':
+        p[0] = p[1] < p[3]
+    elif p[2] == '<=':
+        p[0] = p[1] <= p[3]
+    elif p[2] == '>':
+        p[0] = p[1] > p[3]
+    elif p[2] == '>=':
+        p[0] = p[1] >= p[3]
+    elif p[2] == 'and':
+        p[0] = p[1] and p[3]
+    elif p[2] == 'or':
+        p[0] = p[1] or p[3]
+            
 
 def p_expression_binopa(p):
     '''expression : expression PLUS expression
@@ -193,7 +245,6 @@ def p_condition(p):
     '''condition : IF LPAREN expression RPAREN LBRACE statement_list RBRACE ELSE LBRACE statement_list RBRACE
                  | IF LPAREN expression RPAREN LBRACE statement_list RBRACE'''
     
-    print(p[3])
     # Verificación semántica
     if not isinstance(p[3], bool):
         print(f"Error semántico: La expresión {p[3]} no es booleana")
@@ -210,6 +261,7 @@ def p_condition(p):
 # Aporte Eduardo
 def p_loop_while(p):
     '''loop : WHILE LPAREN expression RPAREN LBRACE statement_list RBRACE'''
+    
     # Verificación semántica
     if not isinstance(p[3], bool):
         print(f"Error semántico: La expresión {p[3]} no es booleana")
