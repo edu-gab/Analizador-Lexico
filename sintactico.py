@@ -283,10 +283,9 @@ def p_loop_while(p):
         print(f"Error semántico: La lista de declaraciones {p[6]} no es válida")
         return
 
-# Aporte Robespierre
+# Aporte de Ronny
 def p_loop_for(p):
     '''loop : FOR LPAREN ID IN expression RPAREN LBRACE statement_list RBRACE'''
-
 
     # Verificación semántica
     if isinstance(p[3], str) and p[3] in variables:
