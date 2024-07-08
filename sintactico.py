@@ -287,6 +287,12 @@ def p_loop_while(p):
 def p_loop_for(p):
     '''loop : FOR LPAREN ID IN expression RPAREN LBRACE statement_list RBRACE'''
 
+
+    # Verificación semántica
+    if isinstance(p[3], str) and p[3] in variables:
+        print(f"Error semántico: La variable {p[3]} ya ha sido inicializada")
+        return  
+
     # Aporte de Robespierre
     if isinstance(p[5], str) and p[5] not in variables:
         print(f"Error semántico: La variable {p[4]} no ha sido inicializada")
