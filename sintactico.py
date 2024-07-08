@@ -195,17 +195,9 @@ def p_condition(p):
     
     print(p[3])
     # Verificación semántica
-    if not isinstance(p[3], str):
+    if not isinstance(p[3], bool):
         print(f"Error semántico: La expresión {p[3]} no es booleana")
         return
-    
-    print(eval(p[3]))
-    if eval(p[3]):
-
-        if not isinstance(p[6], list):
-            print(f"Error semántico: La lista de declaraciones {p[6]} no es válida")
-            return
-        
 
     if not isinstance(p[6], list):
         print(f"Error semántico: La lista de declaraciones {p[6]} no es válida")
