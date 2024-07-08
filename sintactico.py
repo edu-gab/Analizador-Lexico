@@ -39,8 +39,7 @@ def p_statement(p):
                  | input
                  | repeat
                  | condition
-                 | loop
-                 | range'''
+                 | loop'''
 
     #Aporte de Eduardo Sanchez
     p[0] = p[1]
@@ -176,6 +175,11 @@ def p_expression_id(p):
 # Aporte dr Robespierre
 def p_range(p):
     '''range : NUMBER RANGE NUMBER'''
+    # Aporte de Robespierre
+    p[0] = (p[1], p[3])
+def p_expression_range(p):
+    '''expression : range'''
+    p[0] = p[1]
 
 # Aporte de Robespierre funcion 1
 # Aqui va argument_list, lo cambie para probar, habria que hacer el cambio en argument list
@@ -258,10 +262,8 @@ def p_loop_while(p):
 
 # Aporte Robespierre
 def p_loop_for(p):
-    '''loop : FOR LPAREN ID IN expression RPAREN LBRACE statement_list RBRACE
-            | FOR LPAREN ID IN range RPAREN LBRACE statement_list RBRACE'''
+    '''loop : FOR LPAREN ID IN expression RPAREN LBRACE statement_list RBRACE'''
 
-    # Aporte de Robespierre
     if isinstance(p[4], str) and p[4] not in variables:
         print(f"Error semántico: La variable {p[4]} no ha sido inicializada")
         return
@@ -270,7 +272,12 @@ def p_loop_for(p):
     else:
         data_structure = p[4]
 
-    if not isinstance(data_structure, (list, dict, set, tuple)):
+    if isinstance(data_structure, (list, dict, set, tuple)):
+        pass
+    elif isinstance(data_structure, tuple) and len(data_structure) == 2 and all(
+            isinstance(i, int) for i in data_structure):
+        pass
+    else:
         print(f"Error semántico: La estructura de datos {data_structure} no es válida")
         return
 
@@ -279,7 +286,6 @@ def p_loop_for(p):
         return
 
     p[0] = ('for', p[3], data_structure, p[7])
-
 #Aporte Robespierre
 def p_condition_when(p):
     '''condition : WHEN LPAREN expression RPAREN LBRACE when_cases RBRACE'''
@@ -332,7 +338,8 @@ def p_data_structure(p):
     elif p[1] == 'MAPOF':
         p[0] = dict(p[3])
 def p_expression_data_structure(p):
-    '''expression : data_structure'''
+    '''expression : data_structure
+                  | range'''
     p[0] = p[1]
 
 # Aporte de Robespierre
