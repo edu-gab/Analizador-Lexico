@@ -1,15 +1,19 @@
 import ply.yacc as yacc
 from lexico import *
+error_sym = False
 
 
-def is_variable_initialized(var):
-    return var in variables
+
 
 def get_variable_type(var):
     return variables[var] if var in variables else None
 
 # Definición de variables
 variables = {}
+
+def is_variable_initialized(exp):
+    return isinstance(exp, str) and "\"" not in exp and exp in variables
+
 semantic_log = []
 syntactic_log = []
 # Definiciones de precedencia para manejar operadores
@@ -86,6 +90,8 @@ def p_reasignement(p):
     if p[1] not in variables:
         semantic_log.append(f"Error semántico: La variable {p[1]} no ha sido inicializada")
         return
+    elif not is_variable_initialized(p[3]):
+        semantic_log.append(f"Error semántico: La variable {p[3]} no ha sido inicializada")
     else:
         variables[p[1]] = p[3]
         p[0] = (p[1], p[3])
@@ -108,7 +114,7 @@ def p_expression_binop_boolean(p):
     if isinstance(p[3], str) and p[3] not in variables:
         semantic_log.append(f"Error semántico: La variable {p[3]} no ha sido inicializada")
         return
-    
+
     if p[2] == '!=':
         p[0] = p[1] != p[3]
     elif p[2] == '<':
@@ -124,7 +130,7 @@ def p_expression_binop_boolean(p):
     elif p[2] == '||':
         p[0] = p[1] or p[3]
 
-    
+
 def p_expression_binop_arimetic(p):
     '''expression : expression PLUS expression
                   | expression MINUS expression
@@ -204,7 +210,6 @@ def p_expression_id(p):
     if not isinstance(p[1], str) and p[1] in variables:
         p[0] = variables[p[1]]
     else:
-        variables[p[1]] = None
         p[0] = p[1]
 
 # Aporte dr Robespierre
@@ -228,7 +233,7 @@ def p_expression_range(p):
     else:
         semantic_log.append(f"Error semantico: La variable {p[1]} no ha sido inicializada")
         return
-    
+
     if isinstance(p[3], str) and p[3] in variables:
         pass
     elif isinstance(p[3], int):
@@ -236,7 +241,7 @@ def p_expression_range(p):
     else:
         semantic_log.append(f"Error semantico: La variable {p[3]} no ha sido inicializada")
         return
-    
+
     p[0] = range(p[1], p[3])
 
 # Aporte de Robespierre funcion 1
@@ -249,7 +254,8 @@ def p_print(p):
     syntactic_log.append(f'Processing rule: {p.slice}')
 
     for exp in p[3]:
-        if isinstance(exp, str) and exp not in variables:
+        print(exp)
+        if isinstance(exp, str) and "\"" not in exp and exp not in variables:
             semantic_log.append(f"Error semántico: La variable {exp} no ha sido inicializada")
     p[0] = ('print', p[3])
 
@@ -364,7 +370,7 @@ def p_condition_when(p):
     if not isinstance(p[6], list):
         semantic_log.append(f"Error semántico: Los casos 'when' {p[6]} no son válidos")
         return
-    
+
 
 def p_when_cases(p):
     '''when_cases : when_case
@@ -375,11 +381,11 @@ def p_when_cases(p):
     if not isinstance(p[1], list):
         semantic_log.append(f"Error semántico: Los casos 'when' {p[1]} no son válidos")
         return
-    
+
     if len(p) == 3 and not isinstance(p[2], list):
         semantic_log.append(f"Error semántico: Los casos 'when' {p[2]} no son válidos")
         return
-    
+
 
 def p_when_case(p):
     '''when_case : expression_list ARROW statement_list
@@ -390,11 +396,11 @@ def p_when_case(p):
     if not isinstance(p[1], list):
         semantic_log.append(f"Error semántico: La lista de expresiones {p[1]} no es válida")
         return
-    
+
     if not isinstance(p[3], list):
         semantic_log.append(f"Error semántico: La declaración {p[3]} no es válida")
         return
-    
+
     p[0] = (p[1], p[3])
 
 def p_expression_list(p):
@@ -454,6 +460,8 @@ def p_empty(p):
     pass
 
 def p_error(p):
+    global error_sym
+    error_sym = True
     if p:
         syntactic_log.append(f"Error de sintaxis en token: {p.value} (tipo: {p.type})")
     else:
@@ -461,7 +469,7 @@ def p_error(p):
 
 def p_function(p):
     '''function : FUN ID LPAREN argument_list RPAREN LBRACE statement_list RBRACE'''
-    
+
     # Verificación semántica
     syntactic_log.append(f'Processing rule: {p.slice}')
 

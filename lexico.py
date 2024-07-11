@@ -1,7 +1,7 @@
 import ply.lex as lex
-import datetime
 # Termina aporte Robespierre Triviño Roman
 
+error_lex = False
 # Aporte de Ronny
 reserved = {
     'list': 'LIST',"repeat":"REPEAT","map":"MAP" ,"listOf":"LISTOF", 'println': 'PRINTLN',  'print': 'PRINT',  'unit': 'UNIT',"readline":"READLINE",
@@ -111,7 +111,7 @@ def t_CHAR(t):
 
 def t_STRING(t):
     r'\"([^\\\n]|(\\[nrt0\'"\\]))*\"'
-    t.value = t.value[1:-1]
+    t.value = t.value[:]
     return t
 
 
@@ -152,6 +152,8 @@ t_ignore = ' \t'
 
 
 def t_error(t):
+    global error_lex
+    error_lex = True
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
 

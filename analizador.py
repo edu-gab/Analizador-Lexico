@@ -2,6 +2,7 @@ import datetime
 from sintactico import parser
 from lexico import lexer
 
+
 # Comienza aporte Robespierre Triviño
 def generar_nombre_log(nombre):
     ahora = datetime.datetime.now()
