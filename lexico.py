@@ -167,6 +167,8 @@ def generar_log_lexico(data):
         if not tok:
             break      # No more input
         lista.append(tok)
+    return lista
+
 
 
 

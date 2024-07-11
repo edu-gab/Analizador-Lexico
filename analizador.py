@@ -18,6 +18,17 @@ def leer_algoritmo(nombre_archivo):
         print(f"El archivo {nombre_archivo} no existe.")
         return ""
 
+def generar_log_lexico(data):
+    lexer.input(data)
+    lista = []
+    # Tokenize
+    while True:
+        tok = lexer.token()
+        if not tok:
+            break      # No more input
+        lista.append(tok)
+    return lista
+
 
 estudiante = "robtrivi"
 

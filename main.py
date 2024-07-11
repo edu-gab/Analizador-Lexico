@@ -1,6 +1,14 @@
 import tkinter as tk
 from tkinter import filedialog, scrolledtext
 
+from lexico import generar_log_lexico
+from sintactico import analisis_semantico_sintactico
+
+def unir(lista,separador):
+    t = ""
+    for elem in lista:
+        t += str(elem) + separador + " "
+    return t[:-2]
 class AnalyzerApp:
     def __init__(self, root):
         self.root = root
@@ -116,21 +124,28 @@ class AnalyzerApp:
         # Aquí va el código para ejecutar el análisis léxico, sintáctico y semántico.
         code = self.code_editor.get("1.0", tk.END)
 
-        # Ejemplo de análisis léxico básico (esto debe ser reemplazado por el análisis real)
-        tokens = code.split()
         self.lexical_list.delete(0, tk.END)
-        for token in tokens:
-            self.lexical_list.insert(tk.END, f"Lexema: {token}, Token: TOKEN_TYPE")
-
-        # Ejemplo de resultados de análisis sintáctico y semántico
         self.semantic_output.config(state=tk.NORMAL)
         self.semantic_output.delete("1.0", tk.END)
-        self.semantic_output.insert(tk.END, "Resultados del análisis semántico")
-        self.semantic_output.config(state=tk.DISABLED)
-
         self.syntactic_output.config(state=tk.NORMAL)
         self.syntactic_output.delete("1.0", tk.END)
-        self.syntactic_output.insert(tk.END, "Resultados del análisis sintáctico")
+
+        tokens = generar_log_lexico(code)
+        log_sem,log_syn = analisis_semantico_sintactico(code)
+        self.lexical_list.delete(0, tk.END)
+        for token in tokens:
+            self.lexical_list.insert(tk.END, token)
+
+        # Mostrar el log semántico
+        self.semantic_output.config(state=tk.NORMAL)
+        self.semantic_output.delete("1.0", tk.END)
+        self.semantic_output.insert(tk.END, log_sem)
+        self.semantic_output.config(state=tk.DISABLED)
+
+        # Mostrar el log sintáctico
+        self.syntactic_output.config(state=tk.NORMAL)
+        self.syntactic_output.delete("1.0", tk.END)
+        self.syntactic_output.insert(tk.END, log_syn)
         self.syntactic_output.config(state=tk.DISABLED)
 
     def save_file(self):
