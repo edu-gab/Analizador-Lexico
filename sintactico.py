@@ -33,7 +33,6 @@ def p_statement_list(p):
     '''statement_list : statement
                       | statement_list statement'''
     syntactic_log.append(f'Processing rule: {p.slice}')
-
     #Aporte de Eduardo Sanchez
     if len(p) == 2:
         p[0] = [p[1]]
@@ -251,7 +250,6 @@ def p_expression_range(p):
 def p_print(p):
     '''print : PRINTLN LPAREN argument_list RPAREN
              | PRINT LPAREN argument_list RPAREN'''
-
     ##Aporte de Eduardo Sanchez
     syntactic_log.append(f'Processing rule: {p.slice}')
 
@@ -335,10 +333,9 @@ def p_loop_while(p):
 # Aporte de Ronny
 # Aporte de Ronny
 def p_loop_for(p):
-    '''loop : FOR LPAREN ID IN expression RPAREN LBRACE statement_list RBRACE
-            | FOR LPAREN ID IN range RPAREN LBRACE statement_list RBRACE'''
+    '''loop : FOR LPAREN id_foor IN expression RPAREN LBRACE statement_list RBRACE
+            | FOR LPAREN id_foor IN range RPAREN LBRACE statement_list RBRACE'''
     syntactic_log.append(f'Processing rule: {p.slice}')
-
     # Verificación semántica
     if isinstance(p[5], str):
         if p[5] not in variables:
@@ -355,10 +352,14 @@ def p_loop_for(p):
     if not isinstance(p[8], list):
         semantic_log.append(f"Error semántico: La lista de declaraciones {p[8]} no es válida")
         return
+    variables[p[3]] = None
 
     p[0] = ('for', p[3], data_structure, p[8])
 
-
+def p_id_foor(p):
+    '''id_foor : ID'''
+    variables[p[1]] = None
+    p[0] = None
 #Aporte Robespierre
 def p_condition_when(p):
     '''condition : WHEN LPAREN expression RPAREN LBRACE when_cases RBRACE'''
