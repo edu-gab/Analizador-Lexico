@@ -62,7 +62,8 @@ def p_statement(p):
                  | input
                  | repeat
                  | condition
-                 | loop'''
+                 | loop
+                 | function'''
 
     #Aporte de Eduardo Sanchez
     p[0] = p[1]
@@ -186,7 +187,7 @@ def p_expression_string(p):
 # Aporte de Eduardo
 def p_expression_id(p):
     '''expression : ID'''
-
+    variables[p[1]] = None
     #Aporte de Eduardo Sanchez
     if not isinstance(p[1], str) and p[1] in variables:
         p[0] = variables[p[1]]
@@ -301,39 +302,30 @@ def p_loop_while(p):
         return
 
 # Aporte de Ronny
+# Aporte de Ronny
 def p_loop_for(p):
     '''loop : FOR LPAREN ID IN expression RPAREN LBRACE statement_list RBRACE
             | FOR LPAREN ID IN range RPAREN LBRACE statement_list RBRACE'''
 
     # Verificación semántica
-    if isinstance(p[3], str) and p[3] in variables:
-        print(f"Error semántico: La variable {p[3]} ya ha sido inicializada")
-        return 
-    
-    #initializating the variable
-    variables[p[3]] = None 
-
-    # Aporte de Robespierre   
     if isinstance(p[5], str):
         if p[5] not in variables:
             print(f"Error semántico: La variable {p[5]} no ha sido inicializada")
             return
         data_structure = variables[p[5]]
-    else :
+    else:
         if not isinstance(p[5], (list, dict, set, tuple, range)):
             print(f"Error semántico: La estructura de datos {p[5]} no es válida")
             return
         else:
             data_structure = p[5]
 
-    # Assigning the data structure to the variable
-    variables[p[3]] = data_structure
-
     if not isinstance(p[8], list):
         print(f"Error semántico: La lista de declaraciones {p[8]} no es válida")
         return
-    
+
     p[0] = ('for', p[3], data_structure, p[8])
+
 
 #Aporte Robespierre
 def p_condition_when(p):
@@ -433,21 +425,38 @@ def p_error(p):
     else:
         print("Syntax error at EOF")
 
+def p_function(p):
+    '''function : FUN ID LPAREN argument_list RPAREN LBRACE statement_list RBRACE'''
+    
+    # Verificación semántica
+    if not isinstance(p[4], list):
+        print(f"Error semántico: La lista de argumentos {p[4]} no es válida")
+        return
+
+    if not isinstance(p[7], list):
+        print(f"Error semántico: La lista de declaraciones {p[7]} no es válida")
+        return
+
+    p[0] = ('function', p[2], p[4], p[7])
+
+
 parser = yacc.yacc()
+
+
 
 # Ejemplo de uso
 
 sin_analyzer = yacc.yacc()
 
-while True:
-  try:
-    s = input('kotlin > ')
-  except EOFError:
-    break
-  if not s: continue
-  result = sin_analyzer.parse(s)
-  if result != None:
-    print(result)
+# while True:
+#   try:
+#     s = input('kotlin > ')
+#   except EOFError:
+#     break
+#   if not s: continue
+#   result = sin_analyzer.parse(s)
+#   if result != None:
+#     print(result)
 #
 #
 # parser = yacc.yacc()
