@@ -16,8 +16,4 @@ fun main() {
     result = y / x
     println(result)
 
-    // Bucle for
-    for (i in 1..5) {
-        println(i)
-    }
 }

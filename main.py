@@ -142,7 +142,8 @@ class AnalyzerApp:
         self.lexical_frame.grid_rowconfigure(0, weight=1)
         self.analysis_frame.grid_columnconfigure(0, weight=1)
         self.analysis_frame.grid_columnconfigure(1, weight=1)
-
+    def show_no_errors_popup(self,message):
+        messagebox.showinfo("Información", message)
     def run_code(self):
         # Aquí va el código para ejecutar el análisis léxico, sintáctico y semántico.
         code = self.code_editor.get("1.0", tk.END)
@@ -166,17 +167,17 @@ class AnalyzerApp:
             if "Error" in line:
                 errores = True
         if (len(log_sem) == 0) and not(errores):
-            self.show_no_errors_popup()
+            self.show_no_errors_popup("No se encontraron errores")
+        else:
+            self.show_no_errors_popup("Revisa los errores encontrados")
 
-    def show_no_errors_popup(self):
-        messagebox.showinfo("Información", "Código sin errores")
     def save_file(self):
         timestamp = time.strftime("%Y%m%d-%H%M%S")
 
         # Crear la carpeta de destino en la raíz
-        folder_path = os.path.join(os.getcwd(), f"{timestamp}-analizador")
+        nombre_carpeta = f"{timestamp}-analizador"
+        folder_path = os.path.join(os.getcwd(), nombre_carpeta)
         os.makedirs(folder_path, exist_ok=True)
-
         # Guardar el contenido del editor de código
         code_path = os.path.join(folder_path, f"{timestamp}-codigo.txt")
         with open(code_path, 'w') as file:
@@ -199,6 +200,7 @@ class AnalyzerApp:
         with open(syntactic_path, 'w') as file:
             for item in self.syntactic_list.get(0, tk.END):
                 file.write(f"{item}\n")
+        self.show_no_errors_popup(f"Se creó la carpeta {nombre_carpeta} en la raiz")
 
     def load_file(self):
         file_path = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])

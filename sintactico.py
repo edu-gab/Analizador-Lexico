@@ -12,6 +12,8 @@ def get_variable_type(var):
 variables = {}
 
 def is_variable_initialized(exp):
+    if not isinstance(exp, str):
+        return True
     return isinstance(exp, str) and "\"" not in exp and exp in variables
 
 semantic_log = []
