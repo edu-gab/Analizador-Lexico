@@ -1,6 +1,7 @@
 import ply.yacc as yacc
 from lexico import *
 
+
 def is_variable_initialized(var):
     return var in variables
 
@@ -11,7 +12,6 @@ def get_variable_type(var):
 variables = {}
 semantic_log = []
 syntactic_log = []
-
 # Definiciones de precedencia para manejar operadores
 precedence = (
     ('left', 'OR'),
@@ -455,9 +455,9 @@ def p_empty(p):
 
 def p_error(p):
     if p:
-        print("Error de sintaxis en token:", p)
+        syntactic_log.append(f"Error de sintaxis en token: {p.value} (tipo: {p.type})")
     else:
-        print("Syntax error at EOF")
+        syntactic_log.append("Error de sintaxis en EOF")
 
 def p_function(p):
     '''function : FUN ID LPAREN argument_list RPAREN LBRACE statement_list RBRACE'''

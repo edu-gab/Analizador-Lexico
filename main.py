@@ -84,11 +84,13 @@ class AnalyzerApp:
         self.semantic_scroll_x = tk.Scrollbar(self.semantic_frame, orient=tk.HORIZONTAL)
         self.semantic_scroll_x.pack(side=tk.BOTTOM, fill=tk.X)
 
-        self.semantic_output = scrolledtext.ScrolledText(self.semantic_frame, wrap=tk.WORD, width=50, height=10, state=tk.DISABLED, bg="black", fg="white",
-                                                         xscrollcommand=self.semantic_scroll_x.set)
-        self.semantic_output.pack(fill=tk.BOTH, expand=True)
+        self.semantic_scroll_y = tk.Scrollbar(self.semantic_frame, orient=tk.VERTICAL)
+        self.semantic_scroll_y.pack(side=tk.RIGHT, fill=tk.Y)
 
-        self.semantic_scroll_x.config(command=self.semantic_output.xview)
+        self.semantic_list = tk.Listbox(self.semantic_frame, width=50, height=10, bg="white",
+                                        yscrollcommand=self.semantic_scroll_y.set,
+                                        xscrollcommand=self.semantic_scroll_x.set)
+        self.semantic_list.pack(fill=tk.BOTH, expand=True)
 
         self.syntactic_frame = tk.Frame(self.analysis_frame, bd=2, relief=tk.SUNKEN, bg="black")
         self.syntactic_frame.pack(side=tk.LEFT, padx=10, fill=tk.BOTH, expand=True)
@@ -99,11 +101,13 @@ class AnalyzerApp:
         self.syntactic_scroll_x = tk.Scrollbar(self.syntactic_frame, orient=tk.HORIZONTAL)
         self.syntactic_scroll_x.pack(side=tk.BOTTOM, fill=tk.X)
 
-        self.syntactic_output = scrolledtext.ScrolledText(self.syntactic_frame, wrap=tk.WORD, width=50, height=10, state=tk.DISABLED, bg="black", fg="white",
-                                                          xscrollcommand=self.syntactic_scroll_x.set)
-        self.syntactic_output.pack(fill=tk.BOTH, expand=True)
+        self.syntactic_scroll_y = tk.Scrollbar(self.syntactic_frame, orient=tk.VERTICAL)
+        self.syntactic_scroll_y.pack(side=tk.RIGHT, fill=tk.Y)
 
-        self.syntactic_scroll_x.config(command=self.syntactic_output.xview)
+        self.syntactic_list = tk.Listbox(self.syntactic_frame, width=50, height=10, bg="white",
+                                         yscrollcommand=self.syntactic_scroll_y.set,
+                                         xscrollcommand=self.syntactic_scroll_x.set)
+        self.syntactic_list.pack(fill=tk.BOTH, expand=True)
 
         # Configurar redimensionamiento
         self.root.grid_columnconfigure(0, weight=1)
@@ -125,10 +129,8 @@ class AnalyzerApp:
         code = self.code_editor.get("1.0", tk.END)
 
         self.lexical_list.delete(0, tk.END)
-        self.semantic_output.config(state=tk.NORMAL)
-        self.semantic_output.delete("1.0", tk.END)
-        self.syntactic_output.config(state=tk.NORMAL)
-        self.syntactic_output.delete("1.0", tk.END)
+        self.semantic_list.delete(0, tk.END)
+        self.syntactic_list.delete(0, tk.END)
 
         tokens = generar_log_lexico(code)
         log_sem,log_syn = analisis_semantico_sintactico(code)
@@ -136,17 +138,15 @@ class AnalyzerApp:
         for token in tokens:
             self.lexical_list.insert(tk.END, token)
 
-        # Mostrar el log semántico
-        self.semantic_output.config(state=tk.NORMAL)
-        self.semantic_output.delete("1.0", tk.END)
-        self.semantic_output.insert(tk.END, log_sem)
-        self.semantic_output.config(state=tk.DISABLED)
+        self.semantic_list.delete(0, tk.END)
+        if len(log_sem)==0:
+            self.semantic_list.insert(tk.END, ["Codigo correcto semanticamente"])
+        for line in log_sem:
+            self.semantic_list.insert(tk.END, line)
 
-        # Mostrar el log sintáctico
-        self.syntactic_output.config(state=tk.NORMAL)
-        self.syntactic_output.delete("1.0", tk.END)
-        self.syntactic_output.insert(tk.END, log_syn)
-        self.syntactic_output.config(state=tk.DISABLED)
+        self.syntactic_list.delete(0, tk.END)
+        for line in log_syn:
+            self.syntactic_list.insert(tk.END, line)
 
     def save_file(self):
         file_path = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text files", "*.txt")])
